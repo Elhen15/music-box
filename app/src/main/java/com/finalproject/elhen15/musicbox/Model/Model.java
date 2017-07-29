@@ -12,12 +12,14 @@ public class Model {
     public final static Model instance = new Model();
     private static int id = 1;
     private Model(){
-        Calendar c = Calendar.getInstance();
+        User user = new User("Elhen15@Gmail.com","222",true,"321");
 
         for(int i = 0; i < 5; i++) {
             MusicPost musicPost= new MusicPost();
             musicPost.setTitle("Metallica " + i);
+            musicPost.setDesc("bla bla bla "+ i);
             musicPost.setId(id + "");
+            musicPost.setUser(user);
             data.add(i, musicPost);
             id++;
         }

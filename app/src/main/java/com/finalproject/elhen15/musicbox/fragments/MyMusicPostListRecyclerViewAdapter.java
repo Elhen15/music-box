@@ -10,6 +10,8 @@ import com.finalproject.elhen15.musicbox.R;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.fragments.MusicPostListFragment.OnListFragmentInteractionListener;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 /**
@@ -41,6 +43,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         holder.mItem = wantedPost;
         holder.mIdView.setText(wantedPost.getId());
         holder.mContentView.setText(wantedPost.getTitle());
+        holder.mUserName.setText(wantedPost.getUser().getEmail());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +66,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
+        public final TextView mUserName;
         public MusicPost mItem;
 
         public ViewHolder(View view) {
@@ -70,6 +74,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.strow_id);
             mContentView = (TextView) view.findViewById(R.id.strow_name);
+            mUserName = (TextView) view.findViewById(R.id.author_name);
         }
 
         @Override
