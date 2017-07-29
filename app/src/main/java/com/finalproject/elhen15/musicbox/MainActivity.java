@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
 
     @Override
     public void onListFragmentInteraction(MusicPost item) {
-        MusicPostDetails musicPostDetails = MusicPostDetails.newInstance(item.id);
+        MusicPostDetails musicPostDetails = MusicPostDetails.newInstance(item.getId());
         this.musicPostDetailsFragmentInstance = musicPostDetails;
 
         tran = getFragmentManager().beginTransaction();

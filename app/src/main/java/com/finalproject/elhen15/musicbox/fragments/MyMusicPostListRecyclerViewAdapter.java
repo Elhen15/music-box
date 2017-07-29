@@ -39,8 +39,8 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         MusicPost wantedPost =  mValues.get(position);
 
         holder.mItem = wantedPost;
-        holder.mIdView.setText(wantedPost.id);
-        holder.mContentView.setText(wantedPost.title);
+        holder.mIdView.setText(wantedPost.getId());
+        holder.mContentView.setText(wantedPost.getTitle());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

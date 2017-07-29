@@ -80,7 +80,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
         MusicPost currentPost = Model.instance.getPostByID(MusicPostID);
 
         postTitle = (TextView) view.findViewById(R.id.details_music_name);
-        postTitle.setText(currentPost.title);
+        postTitle.setText(currentPost.getTitle());
 
         psotDescription = (TextView) view.findViewById(R.id.details_music_description);
 

@@ -98,8 +98,8 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             btnAddEdit.setText("Edit");
             btnAddEditDel.setVisibility(View.VISIBLE);
             musicPost = Model.instance.getPostByID(POSTID);
-            edtId.setText(musicPost.id);
-            edtName.setText(musicPost.title);
+            edtId.setText(musicPost.getId());
+            edtName.setText(musicPost.getTitle());
         }
 
         btnAddEditDel.setOnClickListener(new View.OnClickListener() {
@@ -153,12 +153,12 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        musicPost.title = edtName.getText().toString();
+        musicPost.setTitle(edtName.getText().toString());
         String idToCheck = edtId.getText().toString();
-        musicPost.imageUrl = "../res/drawable/grid.png";
+        musicPost.setImageUrl("../res/drawable/grid.png");
 
         if (((Model.instance.getPostByID(idToCheck) != null) && (btnAddEdit.getText().equals("Add"))) ||
-                ((!idToCheck.equals(musicPost.id)) && Model.instance.getPostByID(idToCheck) != null) &&
+                ((!idToCheck.equals(musicPost.getId())) && Model.instance.getPostByID(idToCheck) != null) &&
                         (btnAddEdit.getText().equals("Edit")))
         {
             AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
@@ -173,7 +173,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             alertDialog.show();
         }
         else {
-            musicPost.id = idToCheck;
+            musicPost.setId(idToCheck);
 
             if (Model.instance.editPost(musicPost)) {
                 AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();

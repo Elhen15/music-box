@@ -16,9 +16,8 @@ public class Model {
 
         for(int i = 0; i < 5; i++) {
             MusicPost musicPost= new MusicPost();
-            musicPost.title = "Metallica " + i;
-            musicPost.id = id + "";
-            musicPost.dateCreated = c.getTime().toString();
+            musicPost.setTitle("Metallica " + i);
+            musicPost.setId(id + "");
             data.add(i, musicPost);
             id++;
         }
@@ -27,9 +26,9 @@ public class Model {
     private ArrayList<MusicPost> data = new ArrayList<>();
 
     public void addPost(MusicPost musicPost){
-        musicPost.id = ++id + "";
-        musicPost.imageUrl = "../res/drawable/grid.png";
-        data.add(Integer.parseInt(musicPost.id), musicPost);
+        musicPost.setId(++id + "");
+        musicPost.setImageUrl("../res/drawable/grid.png");
+        data.add(Integer.parseInt(musicPost.getId()), musicPost);
     }
 
     public ArrayList<MusicPost> getAllMusicPosts(){
@@ -38,7 +37,7 @@ public class Model {
 
     public MusicPost getPostByID (String postID){
         for (MusicPost musicPost: data) {
-            if (musicPost.id.equals(postID))
+            if (musicPost.getId().equals(postID))
                 return musicPost;
         }
 
@@ -51,10 +50,10 @@ public class Model {
     }
 
     public Boolean editPost(MusicPost musicPost){
-        if (this.getPostByID(musicPost.id) == null) {
+        if (this.getPostByID(musicPost.getId()) == null) {
             this.addPost(musicPost);
         }else {
-            data.set(Integer.parseInt(musicPost.id), musicPost);
+            data.set(Integer.parseInt(musicPost.getId()), musicPost);
         }
 
         return true;
