@@ -12,6 +12,7 @@ public class MusicPost extends Entity {
     private String imageUrl;
     private User user;
     private boolean isDeleted;
+    private int likesCount;
 
     public MusicPost(String id,String title, String imageUrl, String desc){
         super(id);
@@ -19,6 +20,7 @@ public class MusicPost extends Entity {
         this.setDesc(desc);
         this.setDeleted(false);
         this.setImageUrl(imageUrl);
+        this.setLikesCount(0);
     }
 
     public MusicPost(){
@@ -63,5 +65,13 @@ public class MusicPost extends Entity {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public int getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(int likesCount) {
+        this.likesCount = likesCount;
     }
 }
