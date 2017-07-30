@@ -84,10 +84,10 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
         postTitle.setText(currentPost.getTitle());
 
         postDescription = (TextView) view.findViewById(R.id.details_music_description);
-        postDescription.setText(currentPost.getDesc());
+        postDescription.setText(getString(R.string.description)+": "+currentPost.getDesc());
 
         dateCreated = (TextView) view.findViewById(R.id.details_music_create);
-        dateCreated.setText(currentPost.getDate().toString());
+        dateCreated.setText(getString(R.string.date_created)+": "+currentPost.getDate().toString());
 
 
         return view;

@@ -17,7 +17,7 @@ public class Model {
         for(int i = 0; i < 5; i++) {
             MusicPost musicPost= new MusicPost();
             musicPost.setTitle("Metallica " + i);
-            musicPost.setDesc("bla bla bla "+ i);
+            musicPost.setDesc("bla bla bla vvivjfi i jifjif ifjijf ijfijfi \n fjijf ijfijf ijifj iji "+ i);
             musicPost.setId(id + "");
             musicPost.setUser(user);
             data.add(i, musicPost);
