@@ -45,13 +45,13 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
 
     @Override
     public void onListFragmentInteraction(MusicPost item) {
-        MusicPostDetails musicPostDetails = MusicPostDetails.newInstance(item.getId());
-        this.musicPostDetailsFragmentInstance = musicPostDetails;
+        this.musicPostDetailsFragmentInstance = MusicPostDetails.newInstance(item.getId());
 
         tran = getFragmentManager().beginTransaction();
-        tran.hide(this.musicPostDetailsFragmentInstance);
-        tran.addToBackStack("backToList");
-        tran.add(R.id.main_container, musicPostDetails);
+        tran.hide(this.musicPostListFragmentInstance);
+
+        tran.addToBackStack("backList");
+        tran.add(R.id.main_container, this.musicPostDetailsFragmentInstance);
         tran.commit();
     }
 

@@ -50,6 +50,7 @@ public class MusicPostListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
@@ -64,7 +65,7 @@ public class MusicPostListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            final RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -116,13 +117,12 @@ public class MusicPostListFragment extends Fragment {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            /*case R.id.add_new:
+            case R.id.add_new:
                 Log.d("dev", "will create new ");
                 AddOrEditFragment details = AddOrEditFragment.newInstance(null, "Add");
                 tran = getFragmentManager().beginTransaction();
                 tran.replace(R.id.main_container, details).commit();
-
-                break;*/
+                break;
             case android.R.id.home:
                 MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
                 tran = getFragmentManager().beginTransaction();

@@ -39,7 +39,8 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
     public static FragmentTransaction tran;
 
     public TextView postTitle;
-    public TextView psotDescription;
+    public TextView postDescription;
+    public TextView dateCreated;
 
     public MusicPostDetails() {
         // Required empty public constructor
@@ -82,9 +83,12 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
         postTitle = (TextView) view.findViewById(R.id.details_music_name);
         postTitle.setText(currentPost.getTitle());
 
-        psotDescription = (TextView) view.findViewById(R.id.details_music_description);
+        postDescription = (TextView) view.findViewById(R.id.details_music_description);
+        postDescription.setText(currentPost.getDesc());
 
-        // TODO: set the description
+        dateCreated = (TextView) view.findViewById(R.id.details_music_create);
+        dateCreated.setText(currentPost.getDate().toString());
+
 
         return view;
     }

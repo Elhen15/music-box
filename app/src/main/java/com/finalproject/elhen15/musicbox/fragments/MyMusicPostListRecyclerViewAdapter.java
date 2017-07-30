@@ -82,4 +82,5 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
+
 }
