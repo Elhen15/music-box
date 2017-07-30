@@ -11,7 +11,7 @@ public class Comment extends Entity {
 
     public Comment(){}
 
-    public Comment(String id, String comment, User user) {
+    public Comment(int id, String comment, User user) {
         super(id);
         this.comment = comment;
         this.user = user;

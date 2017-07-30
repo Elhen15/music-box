@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.finalproject.elhen15.musicbox.Utiles.Functions;
 import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.R;
@@ -34,15 +35,15 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_ACTION = "ACTION";
 
     // TODO: Rename and change types of parameters
-    private String POSTID;
+    private int POSTID;
     private String ACTION;
     private static Button btnAddEdit = null;
     private static MusicPost musicPost;
-    private static EditText edtName = null;
-    private static EditText edtId = null;
-    private static EditText edtRate = null;
+    private static EditText edtTitle = null;
+    private static EditText edtDesc = null;
+
     private static ImageView edtImage = null;
-    private static CheckBox edtCb = null;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,10 +60,10 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment AddOrEditFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AddOrEditFragment newInstance(String POSTID, String ACTION) {
+    public static AddOrEditFragment newInstance(int POSTID, String ACTION) {
         AddOrEditFragment fragment = new AddOrEditFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_POSTID, POSTID);
+        args.putInt(ARG_POSTID, POSTID);
         args.putString(ARG_ACTION, ACTION);
         fragment.setArguments(args);
         return fragment;
@@ -72,7 +73,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            POSTID = getArguments().getString(ARG_POSTID);
+            POSTID = getArguments().getInt(ARG_POSTID);
             ACTION = getArguments().getString(ARG_ACTION);
         }
     }
@@ -85,11 +86,10 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         btnAddEdit = (Button) v.findViewById(R.id.AddEditButton);
         Button btnAddEditCancel = (Button) v.findViewById(R.id.AddEditButtonCancel);
         Button btnAddEditDel = (Button) v.findViewById(R.id.AddEditButtonDel);
-        edtName = (EditText) v.findViewById(R.id.AddEditName);
-        edtId = (EditText) v.findViewById(R.id.AddEditId);
-        edtRate = (EditText) v.findViewById(R.id.AddEditRate);
+        edtTitle = (EditText) v.findViewById(R.id.AddEditTitle);
+        edtDesc = (EditText) v.findViewById(R.id.AddEditDescription);
+
         edtImage = (ImageView) v.findViewById(R.id.AddEditImage);
-        edtCb = (CheckBox) v.findViewById(R.id.AddEditCB);
 
         if (ACTION.equals("Add")) {
             btnAddEdit.setText("Add");
@@ -98,8 +98,8 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             btnAddEdit.setText("Edit");
             btnAddEditDel.setVisibility(View.VISIBLE);
             musicPost = Model.instance.getPostByID(POSTID);
-            edtId.setText(musicPost.getId());
-            edtName.setText(musicPost.getTitle());
+            edtTitle.setText(musicPost.getTitle());
+            edtDesc.setText(musicPost.getDesc());
         }
 
         btnAddEditDel.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +122,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-        btnAddEditCancel.setOnClickListener(new View.OnClickListener() {
+                btnAddEditCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onFragmentInteractionAddOrEdit();
@@ -153,10 +153,17 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        musicPost.setTitle(edtName.getText().toString());
-        String idToCheck = edtId.getText().toString();
-        musicPost.setImageUrl("../res/drawable/grid.png");
+        musicPost = new MusicPost();
+        musicPost.setTitle(edtTitle.getText().toString());
+        musicPost.setDesc(edtDesc.getText().toString());
+        //TODO: insert the user after we will save it on the session
+        //musicPost.setUser();
+        musicPost.setImageUrl("../res/drawable/blank.png");
+        Model.instance.addPost(musicPost);
+        Functions.alertMessage(v,"Message","Music post has been added! : )");
+        mListener.onFragmentInteractionAddOrEdit();
 
+        /*
         if (((Model.instance.getPostByID(idToCheck) != null) && (btnAddEdit.getText().equals("Add"))) ||
                 ((!idToCheck.equals(musicPost.getId())) && Model.instance.getPostByID(idToCheck) != null) &&
                         (btnAddEdit.getText().equals("Edit")))
@@ -188,7 +195,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
                 alertDialog.show();
             }
             mListener.onFragmentInteractionAddOrEdit();
-        }
+        }*/
     }
 
     /**

@@ -10,36 +10,32 @@ import java.util.Calendar;
 
 public class Model {
     public final static Model instance = new Model();
-    private static int id = 1;
     private Model(){
-        User user = new User("Elhen15@Gmail.com","222",true,"321");
+        User user = new User("Elhen15@Gmail.com","222",true);
 
         for(int i = 0; i < 5; i++) {
             MusicPost musicPost= new MusicPost();
             musicPost.setTitle("Metallica " + i);
             musicPost.setDesc("bla bla bla vvivjfi i jifjif ifjijf ijfijfi \n fjijf ijfijf ijifj iji "+ i);
-            musicPost.setId(id + "");
             musicPost.setUser(user);
             data.add(i, musicPost);
-            id++;
         }
     }
 
     private ArrayList<MusicPost> data = new ArrayList<>();
 
     public void addPost(MusicPost musicPost){
-        musicPost.setId(++id + "");
         musicPost.setImageUrl("../res/drawable/grid.png");
-        data.add(Integer.parseInt(musicPost.getId()), musicPost);
+        data.add(musicPost.getId(), musicPost);
     }
 
     public ArrayList<MusicPost> getAllMusicPosts(){
         return data;
     }
 
-    public MusicPost getPostByID (String postID){
+    public MusicPost getPostByID (int postID){
         for (MusicPost musicPost: data) {
-            if (musicPost.getId().equals(postID))
+            if (musicPost.getId() == postID)
                 return musicPost;
         }
 
@@ -47,7 +43,6 @@ public class Model {
     }
 
     public Boolean removePost(MusicPost musicPost) {
-        id--;
         return data.remove(musicPost);
     }
 
@@ -55,7 +50,7 @@ public class Model {
         if (this.getPostByID(musicPost.getId()) == null) {
             this.addPost(musicPost);
         }else {
-            data.set(Integer.parseInt(musicPost.getId()), musicPost);
+            data.set(musicPost.getId(), musicPost);
         }
 
         return true;

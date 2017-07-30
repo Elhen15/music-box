@@ -33,7 +33,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
     private static final String POST_ID= "POST_ID";
 
     // TODO: Rename and change types of parameters
-    private String MusicPostID;
+    private int MusicPostID;
 
     private OnFragmentInteractionListener mListener;
     public static FragmentTransaction tran;
@@ -54,10 +54,10 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
      * @return A new instance of fragment MusicPostDetails.
      */
     // TODO: Rename and change types and number of parameters
-    public static MusicPostDetails newInstance(String postID) {
+    public static MusicPostDetails newInstance(int postID) {
         MusicPostDetails fragment = new MusicPostDetails();
         Bundle args = new Bundle();
-        args.putString(POST_ID, postID);
+        args.putInt(POST_ID, postID);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,7 +68,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            MusicPostID = getArguments().getString(POST_ID);
+            MusicPostID = getArguments().getInt(POST_ID);
         }
     }
 
@@ -127,7 +127,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(String mvId);
+        void onFragmentInteraction(int postId);
     }
 
     @Override

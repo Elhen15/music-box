@@ -14,8 +14,8 @@ public class MusicPost extends Entity {
     private boolean isDeleted;
     private int likesCount;
 
-    public MusicPost(String id,String title, String imageUrl, String desc){
-        super(id);
+    public MusicPost(String title, String imageUrl, String desc){
+        super();
         this.setTitle(title);
         this.setDesc(desc);
         this.setDeleted(false);

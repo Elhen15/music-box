@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
     }
 
     @Override
-    public void onFragmentInteraction(String musicPostID) {
+    public void onFragmentInteraction(int musicPostID) {
         AddOrEditFragment details = AddOrEditFragment.newInstance(musicPostID, "Edit");
 
         tran.hide(this.musicPostDetailsFragmentInstance);

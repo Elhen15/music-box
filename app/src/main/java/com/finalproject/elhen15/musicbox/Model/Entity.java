@@ -11,27 +11,28 @@ import java.util.Date;
  */
 
 public abstract class Entity {
-    private String id;
+    private static int id = 0;
     private String date;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public Entity(){
+        this.setId(id++);
         Calendar cal = Calendar.getInstance();
         this.setDate(dateFormat.format(cal.getTime()));
     }
 
-    public Entity(String id)
+    public Entity(int id)
     {
         Calendar cal = Calendar.getInstance();
         this.setDate(dateFormat.format(cal.getTime()));
         this.setId(id);
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

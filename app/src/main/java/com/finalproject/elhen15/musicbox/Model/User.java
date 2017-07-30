@@ -13,8 +13,8 @@ public class User extends Entity {
         super();
     }
 
-    public User(String email, String password, boolean isAdmin, String id){
-        super(id);
+    public User(String email, String password, boolean isAdmin){
+        super();
         this.setEmail(email);
         this.setPassword(password);
         this.setIsAdmin(isAdmin);
