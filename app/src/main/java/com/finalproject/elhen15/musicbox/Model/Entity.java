@@ -1,5 +1,9 @@
 package com.finalproject.elhen15.musicbox.Model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -8,15 +12,18 @@ import java.util.Date;
 
 public abstract class Entity {
     private String id;
-    private Date date;
+    private String date;
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public Entity(){
-
+        Calendar cal = Calendar.getInstance();
+        this.setDate(dateFormat.format(cal.getTime()));
     }
 
     public Entity(String id)
     {
-        this.setDate(new Date());
+        Calendar cal = Calendar.getInstance();
+        this.setDate(dateFormat.format(cal.getTime()));
         this.setId(id);
     }
 
@@ -28,11 +35,11 @@ public abstract class Entity {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

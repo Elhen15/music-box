@@ -24,7 +24,7 @@ public class MusicPost extends Entity {
     }
 
     public MusicPost(){
-
+        super();
     }
 
     public String getTitle() {
