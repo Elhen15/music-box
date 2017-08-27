@@ -36,9 +36,9 @@ public class MainActivity extends ActionBarActivity implements
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        LoginFragment listFragment = LoginFragment.newInstance();
+        LoginFragment loginFragment = LoginFragment.newInstance();
         transaction = getFragmentManager().beginTransaction();
-        transaction.add(R.id.main_container, listFragment);
+        transaction.add(R.id.main_container, loginFragment);
         transaction.commit();
     }
 

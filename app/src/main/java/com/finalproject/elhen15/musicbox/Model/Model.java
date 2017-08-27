@@ -29,6 +29,52 @@ public class Model {
 
     private ArrayList<MusicPost> data = new ArrayList<>();
 
+    // Getting user - works with firebase
+
+    public interface IGetCurrentUserCallback {
+        void onComplete(User currentUser);
+    }
+    public void getCurrentUser(final IGetCurrentUserCallback callback) {
+        modelUserFirebase.getCurrentUser(new ModelUserFirebase.IGetCurrentUserCallback() {
+            @Override
+            public void onComplete(User user) {
+                callback.onComplete(user);
+            }
+        });
+    }
+
+    public interface IGetUserByIdCallback {
+        void onComplete(User user);
+        void onCancel();
+    }
+    public void getUserById(String id, final IGetUserByIdCallback callback) {
+        modelUserFirebase.getUserById(id, new ModelUserFirebase.IGetUserByIdCallback() {
+            @Override
+            public void onComplete(User user) {
+                callback.onComplete(user);
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onCancel();
+            }
+        });
+    }
+
+
+    public interface IGetUserLoginCallback {
+        void onComplete(User user);
+    }
+    public void userLogin(String email, String password , final IGetUserLoginCallback callback) {
+        modelUserFirebase.userLogin(email, password, new ModelUserFirebase.IGetUserLoginCallback() {
+            @Override
+            public void onComplete(User user) {
+                callback.onComplete(user);
+            }
+        });
+    }
+
+
 
     // Adding user - works with firebase
     public interface IAddUser {

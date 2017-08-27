@@ -1,13 +1,16 @@
 package com.finalproject.elhen15.musicbox.fragments;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,8 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.finalproject.elhen15.musicbox.Model.Model;
+import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.R;
+import com.finalproject.elhen15.musicbox.Utiles.Functions;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +38,9 @@ import com.finalproject.elhen15.musicbox.R;
  */
 public class LoginFragment extends android.app.Fragment {
     private OnFragmentInteractionListener mListener;
+
+    private EditText emailEditText;
+    private EditText passwordEditText;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -117,5 +130,74 @@ public class LoginFragment extends android.app.Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteractionChangeFrag(Fragment fragment);
+    }
+
+
+    private AlertDialog checkFieldValidation(String email, String password) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        Pattern p = Patterns.EMAIL_ADDRESS;
+        Matcher m = p.matcher(email);
+
+        if (email.equals("") || email.length() == 0
+                || password.equals("") || password.length() == 0)
+
+            builder.setMessage("All fields are required.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+
+            // Check if email id valid or not
+        else if (!m.find())
+            builder.setMessage("Your Email Id is Invalid.")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            emailEditText.requestFocus();
+                        }
+                    });
+        else {
+            return null;
+        }
+
+        return builder.create();
+    }
+
+    private void actuallyCreateTheView(View view) {
+        emailEditText = (EditText) view.findViewById(R.id.editText_username);
+        passwordEditText = (EditText) view.findViewById(R.id.editText_pw);
+
+        Button btnSignIn = (Button) view.findViewById(R.id.loginbtn_signin);
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                AlertDialog alertDialog = checkFieldValidation(email, password);
+
+                if (alertDialog != null) {
+                    alertDialog.show();
+                }
+                else {
+                    //progressBar.setVisibility(View.VISIBLE);
+
+                    Model.instance.userLogin(email, password, new Model.IGetUserLoginCallback() {
+                        @Override
+                        public void onComplete(User user) {
+                           // progressBar.setVisibility(View.GONE);
+
+                            if (user != null) {
+                                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+                                onButtonPressed(listFragment);
+                            } else {
+                                Functions.alertMessage(v, "Authentication failed", "Please try again");
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 }
