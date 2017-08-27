@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.R;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.fragments.MusicPostListFragment.OnListFragmentInteractionListener;

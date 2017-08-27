@@ -20,6 +20,14 @@ public class User extends Entity {
         this.setIsAdmin(isAdmin);
     }
 
+    public User(User copy)
+    {
+        super();
+        this.setEmail(copy.getEmail());
+        this.setPassword(copy.getPassword());
+        this.setIsAdmin(copy.getIsAdmin());
+    }
+
     public String getEmail() {
         return email;
     }
@@ -39,4 +47,6 @@ public class User extends Entity {
     public void setIsAdmin(boolean isAdmin){
         this.isAdmin = isAdmin;
     }
+
+    public boolean getIsAdmin(){return isAdmin;}
 }

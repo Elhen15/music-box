@@ -4,13 +4,18 @@ package com.finalproject.elhen15.musicbox.Model;
  * Created by Elhen15 on 29/07/2017.
  */
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
 public class Model {
+    private ModelUserFirebase modelUserFirebase;
     public final static Model instance = new Model();
+
     private Model(){
+        modelUserFirebase = new ModelUserFirebase();
         User user = new User("Elhen15@Gmail.com","222",true);
 
         for(int i = 0; i < 5; i++) {
@@ -18,22 +23,45 @@ public class Model {
             musicPost.setTitle("Metallica " + i);
             musicPost.setDesc("bla bla bla vvivjfi i jifjif ifjijf ijfijfi \n fjijf ijfijf ijifj iji "+ i);
             musicPost.setUser(user);
-            data.add(i, musicPost);
+            data.add(musicPost);
         }
     }
 
     private ArrayList<MusicPost> data = new ArrayList<>();
 
+
+    // Adding user - works with firebase
+    public interface IAddUser {
+        void onComplete(User user);
+        void onError(String reason);
+    }
+    public void addUser(User user, String password, final IAddUser callback ) {
+        modelUserFirebase.addUser(user, password, new ModelUserFirebase.IAddUser() {
+            @Override
+            public void onComplete(User user) {
+                Log.d("dev","Model - onComplete " +user.getEmail());
+                callback.onComplete(user);
+            }
+
+            @Override
+            public void onError(String reason) {
+                Log.d("dev","Model - onError: "+ reason);
+                callback.onError(reason);
+            }
+        });
+    }
+
+
     public void addPost(MusicPost musicPost){
         //musicPost.setImageUrl("../res/drawable/grid.png");
-        data.add(musicPost.getId(), musicPost);
+        data.add(musicPost);
     }
 
     public ArrayList<MusicPost> getAllMusicPosts(){
         return data;
     }
 
-    public MusicPost getPostByID (int postID){
+    public MusicPost getPostByID (String postID){
         for (MusicPost musicPost: data) {
             if (musicPost.getId() == postID)
                 return musicPost;
@@ -50,7 +78,8 @@ public class Model {
         if (this.getPostByID(musicPost.getId()) == null) {
             this.addPost(musicPost);
         }else {
-            data.set(musicPost.getId(), musicPost);
+            data.remove(musicPost);
+            data.add(musicPost);
         }
 
         return true;

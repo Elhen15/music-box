@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +36,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_POSTID = "POSTID";
     private static final String ARG_ACTION = "ACTION";
 
-    private int POSTID;
+    private String POSTID;
     private String ACTION;
     private static Button btnAddEdit = null;
     private static MusicPost musicPost;
@@ -59,10 +60,10 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
      * @param ACTION Parameter 2.
      * @return A new instance of fragment AddOrEditFragment.
      */
-    public static AddOrEditFragment newInstance(int POSTID, String ACTION) {
+    public static AddOrEditFragment newInstance(String POSTID, String ACTION) {
         AddOrEditFragment fragment = new AddOrEditFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_POSTID, POSTID);
+        args.putString(ARG_POSTID, POSTID);
         args.putString(ARG_ACTION, ACTION);
         fragment.setArguments(args);
         return fragment;
@@ -72,7 +73,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            POSTID = getArguments().getInt(ARG_POSTID);
+            POSTID = getArguments().getString(ARG_POSTID);
             ACTION = getArguments().getString(ARG_ACTION);
         }
     }
@@ -80,6 +81,8 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("TAG","onCreateView - AddOrEditFragment");
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_or_edit, container, false);
         btnAddEdit = (Button) v.findViewById(R.id.AddEditButton);

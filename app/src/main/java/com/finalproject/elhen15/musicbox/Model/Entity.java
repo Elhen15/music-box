@@ -12,29 +12,29 @@ import java.util.Date;
 
 public abstract class Entity {
     private static int ID_COUNTER = 0;
-    protected int id;
+    protected String id;
     protected String date;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public Entity(){
-        this.setId(ID_COUNTER);
+        this.setId(ID_COUNTER+"");
         Calendar cal = Calendar.getInstance();
         this.setDate(dateFormat.format(cal.getTime()));
         ID_COUNTER++;
     }
 
-    public Entity(int id)
+    public Entity(String id)
     {
         Calendar cal = Calendar.getInstance();
         this.setDate(dateFormat.format(cal.getTime()));
         this.setId(id);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

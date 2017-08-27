@@ -46,6 +46,7 @@ public class MainActivity extends ActionBarActivity implements
         return context;
     }
 
+    // creates the list fragment
     @Override
     public void onFragmentInteractionChangeFrag(Fragment frag) {
         if (frag instanceof MusicPostListFragment)
@@ -56,6 +57,8 @@ public class MainActivity extends ActionBarActivity implements
         transaction.commit();
     }
 
+
+    // creates the details fragment
     @Override
     public void onListFragmentInteraction(MusicPost item) {
         this.musicPostDetailsFragmentInstance = MusicPostDetails.newInstance(item.getId());
@@ -67,8 +70,9 @@ public class MainActivity extends ActionBarActivity implements
         transaction.commit();
     }
 
+    // create add or edit fragment
     @Override
-    public void onFragmentInteraction(int musicPostID) {
+    public void onFragmentInteraction(String musicPostID) {
         AddOrEditFragment details = AddOrEditFragment.newInstance(musicPostID, "Edit");
 
         transaction = getFragmentManager().beginTransaction();
@@ -79,6 +83,7 @@ public class MainActivity extends ActionBarActivity implements
     }
 
 
+    // create the list fragment
     @Override
     public void onFragmentInteractionAddOrEdit() {
         MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
@@ -88,12 +93,13 @@ public class MainActivity extends ActionBarActivity implements
         transaction.commit();
     }
 
-    @Override
+    // create sign up fragment
+   /* @Override
     public void onFragmentSignUpInteraction() {
         SignUpFragment signUpFragment = SignUpFragment.newInstance();
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.main_container,signUpFragment);
         transaction.addToBackStack("backLogin");
         transaction.commit();
-    }
+    }*/
 }

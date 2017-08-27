@@ -128,7 +128,7 @@ public class MusicPostListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.add_new:
                 Log.d("dev", "will create new ");
-                AddOrEditFragment details = AddOrEditFragment.newInstance(0, "Add");
+                AddOrEditFragment details = AddOrEditFragment.newInstance(0+"", "Add");
                 tran = getFragmentManager().beginTransaction();
                 tran.replace(R.id.main_container, details).commit();
                 break;
