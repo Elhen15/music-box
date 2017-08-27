@@ -73,6 +73,21 @@ public class LoginFragment extends android.app.Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+        Model.instance.getCurrentUser(new Model.IGetCurrentUserCallback(){
+            @Override
+            public void onComplete(User currUser){
+                if(currUser==null){
+                    actuallyCreateTheView(view);
+                    //TODO:ProgressBar
+                }
+                else
+                {
+                    MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+                    onButtonPressed(listFragment);
+                }
+            }
+        });
+        /*
         Button btnSignUp = (Button) view.findViewById(R.id.loginbtn_signup);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +103,7 @@ public class LoginFragment extends android.app.Fragment {
                 MusicPostListFragment listFragment =  MusicPostListFragment.newInstance(1);
                 onButtonPressed(listFragment);
             }
-        });
+        });*/
 
         return view;
     }
