@@ -12,7 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -41,6 +45,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
     public TextView postTitle;
     public TextView postDescription;
     public TextView dateCreated;
+    public TextView likesCount;
 
     public MusicPostDetails() {
         // Required empty public constructor
@@ -75,8 +80,12 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("dev","onCreateView");
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_music_post_details, container, false);
+
+        final LinearLayout l = (LinearLayout) view.findViewById(R.id.detail_frag);
 
         MusicPost currentPost = Model.instance.getPostByID(MusicPostID);
 
@@ -88,6 +97,20 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
 
         dateCreated = (TextView) view.findViewById(R.id.details_music_create);
         dateCreated.setText(getString(R.string.date_created)+": "+currentPost.getDate().toString());
+
+        likesCount = (TextView) view.findViewById(R.id.details_music_likes);
+        likesCount.setText(getString(R.string.likes_counter)+": "+currentPost.getLikesCount()+"");
+
+        WebView myWebView = (WebView) view.findViewById( R.id.youtube_webview);
+        myWebView.setWebChromeClient(new WebChromeClient());
+        WebSettings ws = myWebView.getSettings();
+        ws.setBuiltInZoomControls(true);
+        ws.setJavaScriptEnabled(true);
+        //myWebView.loadUrl("http://www.youtube.com/embed/bIPcobKMB94");
+
+        //String playVideo= "<html><body>Youtube video .. <br> <iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/bIPcobKMB94\" frameborder=\"0\"></body></html>";
+
+        //myWebView.loadData(playVideo, "text/html", "utf-8");
 
 
         return view;
@@ -154,4 +177,5 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
 
         return true;
     }
+
 }

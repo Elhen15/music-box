@@ -49,6 +49,7 @@ public class LoginFragment extends android.app.Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -57,7 +58,7 @@ public class LoginFragment extends android.app.Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        final View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         Button btnSignUp = (Button) view.findViewById(R.id.loginbtn_signup);
         btnSignUp.setOnClickListener(new View.OnClickListener() {

@@ -30,7 +30,9 @@ public class MusicPostListFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private LoginFragment.OnFragmentInteractionListener mLoginListener;
     public static FragmentTransaction tran;
+    public RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -85,6 +87,13 @@ public class MusicPostListFragment extends Fragment {
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
+        }
+
+        if (context instanceof LoginFragment.OnFragmentInteractionListener ){
+            mLoginListener =(LoginFragment.OnFragmentInteractionListener) context;
+        }
+        else {
+            throw new RuntimeException(context.toString() +" must implement onListToLoginInteractionListner");
         }
     }
 

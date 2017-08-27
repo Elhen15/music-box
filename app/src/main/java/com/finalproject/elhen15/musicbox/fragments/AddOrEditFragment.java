@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.Utiles.Functions;
 import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
@@ -34,7 +35,6 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_POSTID = "POSTID";
     private static final String ARG_ACTION = "ACTION";
 
-    // TODO: Rename and change types of parameters
     private int POSTID;
     private String ACTION;
     private static Button btnAddEdit = null;
@@ -59,7 +59,6 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
      * @param ACTION Parameter 2.
      * @return A new instance of fragment AddOrEditFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static AddOrEditFragment newInstance(int POSTID, String ACTION) {
         AddOrEditFragment fragment = new AddOrEditFragment();
         Bundle args = new Bundle();
@@ -88,7 +87,6 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         Button btnAddEditDel = (Button) v.findViewById(R.id.AddEditButtonDel);
         edtTitle = (EditText) v.findViewById(R.id.AddEditTitle);
         edtDesc = (EditText) v.findViewById(R.id.AddEditDescription);
-
         edtImage = (ImageView) v.findViewById(R.id.AddEditImage);
 
         if (ACTION.equals("Add")) {
@@ -106,16 +104,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 if (Model.instance.removePost(musicPost)) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
-                    alertDialog.setTitle("POST DELETED");
-                    alertDialog.setMessage("SUCCESS");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
+                    Functions.alertMessage(v,"Message","Music post has been deleted :/");
                 }
 
                 mListener.onFragmentInteractionAddOrEdit();
@@ -152,50 +141,18 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
         musicPost = new MusicPost();
+        User user = new User("aaaa","aaa",true);
+        musicPost.setUser(user);
         musicPost.setTitle(edtTitle.getText().toString());
         musicPost.setDesc(edtDesc.getText().toString());
         //TODO: insert the user after we will save it on the session
-        //musicPost.setUser();
         musicPost.setImageUrl("../res/drawable/blank.png");
         Model.instance.addPost(musicPost);
         Functions.alertMessage(v,"Message","Music post has been added! : )");
         mListener.onFragmentInteractionAddOrEdit();
 
-        /*
-        if (((Model.instance.getPostByID(idToCheck) != null) && (btnAddEdit.getText().equals("Add"))) ||
-                ((!idToCheck.equals(musicPost.getId())) && Model.instance.getPostByID(idToCheck) != null) &&
-                        (btnAddEdit.getText().equals("Edit")))
-        {
-            AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
-            alertDialog.setTitle("ID IN USE");
-            alertDialog.setMessage("Choose another id");
-            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            alertDialog.show();
-        }
-        else {
-            musicPost.setId(idToCheck);
-
-            if (Model.instance.editPost(musicPost)) {
-                AlertDialog alertDialog = new AlertDialog.Builder(v.getContext()).create();
-                alertDialog.setTitle("POST SAVED");
-                alertDialog.setMessage("SUCCESS");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                alertDialog.show();
-            }
-            mListener.onFragmentInteractionAddOrEdit();
-        }*/
     }
 
     /**

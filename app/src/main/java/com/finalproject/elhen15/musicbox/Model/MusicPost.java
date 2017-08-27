@@ -13,14 +13,16 @@ public class MusicPost extends Entity {
     private User user;
     private boolean isDeleted;
     private int likesCount;
+    private String youtubeURL;
 
-    public MusicPost(String title, String imageUrl, String desc){
+    public MusicPost(String title, String imageUrl, String desc, String youtubeURL){
         super();
         this.setTitle(title);
         this.setDesc(desc);
         this.setDeleted(false);
         this.setImageUrl(imageUrl);
         this.setLikesCount(0);
+        this.setYoutubeURL(youtubeURL);
     }
 
     public MusicPost(){
@@ -73,5 +75,13 @@ public class MusicPost extends Entity {
 
     public void setLikesCount(int likesCount) {
         this.likesCount = likesCount;
+    }
+
+    public String getYoutubeURL() {
+        return youtubeURL;
+    }
+
+    public void setYoutubeURL(String youtubeURL) {
+        this.youtubeURL = youtubeURL;
     }
 }

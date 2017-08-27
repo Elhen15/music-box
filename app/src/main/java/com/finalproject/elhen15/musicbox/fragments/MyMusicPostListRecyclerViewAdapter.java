@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.finalproject.elhen15.musicbox.R;
@@ -44,6 +45,15 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         holder.mIdView.setText(wantedPost.getId()+"");
         holder.mContentView.setText(wantedPost.getTitle());
         holder.mUserName.setText(wantedPost.getUser().getEmail());
+        holder.mLikeButton.setOnClickListener(new View.OnClickListener(){
+
+            // OnClick function for the like button
+            public void onClick(View v){
+                if (null != mListener){
+                    holder.mItem.setLikesCount(holder.mItem.getLikesCount()+1);
+                }
+            }
+        } );
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +77,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         public final TextView mIdView;
         public final TextView mContentView;
         public final TextView mUserName;
+        public final ImageButton mLikeButton;
         public MusicPost mItem;
 
         public ViewHolder(View view) {
@@ -75,6 +86,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
             mIdView = (TextView) view.findViewById(R.id.strow_id);
             mContentView = (TextView) view.findViewById(R.id.strow_name);
             mUserName = (TextView) view.findViewById(R.id.author_name);
+            mLikeButton = (ImageButton) view.findViewById(R.id.imageButton);
         }
 
         @Override

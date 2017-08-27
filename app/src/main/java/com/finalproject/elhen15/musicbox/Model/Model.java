@@ -25,7 +25,7 @@ public class Model {
     private ArrayList<MusicPost> data = new ArrayList<>();
 
     public void addPost(MusicPost musicPost){
-        musicPost.setImageUrl("../res/drawable/grid.png");
+        //musicPost.setImageUrl("../res/drawable/grid.png");
         data.add(musicPost.getId(), musicPost);
     }
 
@@ -54,5 +54,12 @@ public class Model {
         }
 
         return true;
+    }
+
+    public void userLogin(String email, String password) {
+    }
+
+    public void signUp(User user){
+
     }
 }

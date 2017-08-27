@@ -29,11 +29,25 @@
             android:textSize="15dp"/>
 
         <TextView
+            android:id="@+id/details_music_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.00"
+            android:text="@string/likes_counter"
+            android:textSize="15dp"/>
+
+        <TextView
             android:id="@+id/details_music_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0.00"
             android:text="@string/description"
             android:textSize="20dp"/>
+
+        <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/youtube_webview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
     </LinearLayout>
 </LinearLayout>

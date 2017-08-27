@@ -11,14 +11,16 @@ import java.util.Date;
  */
 
 public abstract class Entity {
-    private static int id = 0;
-    private String date;
+    private static int ID_COUNTER = 0;
+    protected int id;
+    protected String date;
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
     public Entity(){
-        this.setId(id++);
+        this.setId(ID_COUNTER);
         Calendar cal = Calendar.getInstance();
         this.setDate(dateFormat.format(cal.getTime()));
+        ID_COUNTER++;
     }
 
     public Entity(int id)
