@@ -87,15 +87,8 @@ public class LoginFragment extends android.app.Fragment {
                 }
             }
         });
+
         /*
-        Button btnSignUp = (Button) view.findViewById(R.id.loginbtn_signup);
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SignUpFragment signUpFragment = SignUpFragment.newInstance();
-                onButtonPressed(signUpFragment);
-            }
-        });
         Button btnSignIn = (Button) view.findViewById(R.id.loginbtn_signin);
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,9 +177,20 @@ public class LoginFragment extends android.app.Fragment {
         passwordEditText = (EditText) view.findViewById(R.id.editText_pw);
 
         Button btnSignIn = (Button) view.findViewById(R.id.loginbtn_signin);
+        Button btnSignUp = (Button) view.findViewById(R.id.loginbtn_signup);
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SignUpFragment signUpFragment = SignUpFragment.newInstance();
+                onButtonPressed(signUpFragment);
+            }
+        });
+
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                Log.d("dev","onClick listener LoginFragment");
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
 
@@ -203,6 +207,7 @@ public class LoginFragment extends android.app.Fragment {
                         public void onComplete(User user) {
                            // progressBar.setVisibility(View.GONE);
 
+                            Log.d("dev","onComplete - UserLogin LoginFragment: "+ user.getEmail());
                             if (user != null) {
                                 MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
                                 onButtonPressed(listFragment);

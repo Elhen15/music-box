@@ -95,15 +95,18 @@ public class ModelUserFirebase {
     public void userLogin(String email, String password , final IGetUserLoginCallback callback) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
+                            Log.d("dev","onComplete userLogin ModelUserFirebase with null");
                             callback.onComplete(null);
                         }
                         else {
                             getCurrentUser(new IGetCurrentUserCallback() {
                                 @Override
                                 public void onComplete(User user) {
+                                    Log.d("dev","onComplete userLogin ModelUserFirebase with user "+user.getEmail());
                                     callback.onComplete(user);
                                 }
                             });

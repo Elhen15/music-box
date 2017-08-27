@@ -69,6 +69,7 @@ public class Model {
         modelUserFirebase.userLogin(email, password, new ModelUserFirebase.IGetUserLoginCallback() {
             @Override
             public void onComplete(User user) {
+                Log.d("dev","onComplete Model userLogin");
                 callback.onComplete(user);
             }
         });
