@@ -190,8 +190,6 @@ public class MusicPostListFragment extends Fragment {
             @Override
             public void onComplete(ArrayList<MusicPost> posts) {
                 ArrayList<MusicPost> postToRemove = new ArrayList<MusicPost>();
-                ArrayList<MusicPost> userPosts;
-                userPosts = posts;
 
                 for (MusicPost musicPost: posts) {
                     if (!musicPost.getUser().getId().equals(Model.user.getId())) {
