@@ -109,17 +109,44 @@ public class Model {
         modelPostFirebase.addPost(musicPost);
     }
 
-    public ArrayList<MusicPost> getAllMusicPosts(){
-        return data;
+    // Getting list of all the posts
+    public interface IGetAllPostsCallback {
+        void onComplete(ArrayList<MusicPost> movies);
+        void onCancel();
+    }
+    public void getAllMovies(final IGetAllPostsCallback callback){
+        modelPostFirebase.getAllMovies(new ModelPostFirebase.IGetAlPostsCallback() {
+            @Override
+            public void onComplete(ArrayList<MusicPost> movies) {
+                callback.onComplete(movies);
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onCancel();
+            }
+        });
     }
 
-    public MusicPost getPostByID (String postID){
-        for (MusicPost musicPost: data) {
-            if (musicPost.getId() == postID)
-                return musicPost;
-        }
 
-        return null;
+    public interface IGetPostCallback  {
+        void onComplete(MusicPost musicPost);
+        void onCancel();
+    }
+
+    // get post bu id - firebase
+    public void getPostByID (String movieID, final IGetPostCallback callback){
+        modelPostFirebase.getPostByID(movieID, new ModelPostFirebase.IGetMusicPostCallback() {
+            @Override
+            public void onComplete(MusicPost musicPost) {
+                callback.onComplete(musicPost);
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onCancel();
+            }
+        });
     }
 
     public Boolean removePost(MusicPost musicPost) {
@@ -127,12 +154,12 @@ public class Model {
     }
 
     public Boolean editPost(MusicPost musicPost){
-        if (this.getPostByID(musicPost.getId()) == null) {
-            this.addPost(musicPost);
-        }else {
+       // if (this.getPostByID(musicPost.getId()) == null) {
+       //     this.addPost(musicPost);
+       // }else {
             data.remove(musicPost);
             data.add(musicPost);
-        }
+        //}
 
         return true;
     }
@@ -143,4 +170,6 @@ public class Model {
     public void signUp(User user){
         modelUserFirebase.signOut();
     }
+
+
 }

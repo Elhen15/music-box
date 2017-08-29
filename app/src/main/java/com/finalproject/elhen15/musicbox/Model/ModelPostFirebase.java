@@ -7,6 +7,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * Created by Elhen15 on 29/08/2017.
  */
@@ -58,6 +60,53 @@ public class ModelPostFirebase {
         DatabaseReference reference = database.getReference(POSTS_ID);
         reference.setValue(id);
     }
+
+
+    interface IGetAlPostsCallback {
+        void onComplete(ArrayList<MusicPost> movies);
+        void onCancel();
+    }
+    public void getAllMovies(final IGetAlPostsCallback callback){
+        postsReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<MusicPost> movies = new ArrayList<>();
+
+                for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    MusicPost musicPost = snap.getValue(MusicPost.class);
+                    movies.add(musicPost);
+                }
+
+                callback.onComplete(movies);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCancel();
+            }
+        });
+    }
+
+
+    interface IGetMusicPostCallback{
+        void onComplete(MusicPost musicPost);
+        void onCancel();
+    }
+    public void getPostByID (String movieID, final IGetMusicPostCallback callback){
+        postsReference.child(movieID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                MusicPost mv = dataSnapshot.getValue(MusicPost.class);
+                callback.onComplete(mv);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCancel();
+            }
+        });
+    }
+
 
 
 }

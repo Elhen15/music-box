@@ -82,26 +82,35 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         Log.d("dev","onCreateView");
 
+        final MusicPost currentPost;
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_music_post_details, container, false);
 
         final LinearLayout l = (LinearLayout) view.findViewById(R.id.detail_frag);
 
-        MusicPost currentPost = Model.instance.getPostByID(MusicPostID);
-
         postTitle = (TextView) view.findViewById(R.id.details_music_name);
-        postTitle.setText(currentPost.getTitle());
-
         postDescription = (TextView) view.findViewById(R.id.details_music_description);
-        postDescription.setText(getString(R.string.description)+": "+currentPost.getDesc());
-
         dateCreated = (TextView) view.findViewById(R.id.details_music_create);
-        dateCreated.setText(getString(R.string.date_created)+": "+currentPost.getDate().toString());
-
         likesCount = (TextView) view.findViewById(R.id.details_music_likes);
-        likesCount.setText(getString(R.string.likes_counter)+": "+currentPost.getLikesCount()+"");
-
         WebView myWebView = (WebView) view.findViewById( R.id.youtube_webview);
+
+        Model.instance.getPostByID(MusicPostID, new Model.IGetPostCallback() {
+            @Override
+            public void onComplete(MusicPost musicPost) {
+                postTitle.setText(musicPost.getTitle());
+                postDescription.setText(getString(R.string.description)+": "+musicPost.getDesc());
+                dateCreated.setText(getString(R.string.date_created)+": "+musicPost.getDate().toString());
+                likesCount.setText(getString(R.string.likes_counter)+": "+musicPost.getLikesCount()+"");
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+
         myWebView.setWebChromeClient(new WebChromeClient());
         WebSettings ws = myWebView.getSettings();
         ws.setBuiltInZoomControls(true);

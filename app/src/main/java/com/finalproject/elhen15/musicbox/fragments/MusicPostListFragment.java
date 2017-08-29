@@ -19,6 +19,9 @@ import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -33,6 +36,7 @@ public class MusicPostListFragment extends Fragment {
     private LoginFragment.OnFragmentInteractionListener mLoginListener;
     public static FragmentTransaction tran;
     public RecyclerView recyclerView;
+    public static List<MusicPost> postList;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -73,7 +77,22 @@ public class MusicPostListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(Model.instance.getAllMusicPosts(), mListener));
+
+            if (MusicPostListFragment.postList!= null) {
+                recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(MusicPostListFragment.postList, mListener));
+            } else
+                Model.instance.getAllMovies(new Model.IGetAllPostsCallback() {
+                    @Override
+                    public void onComplete(ArrayList<MusicPost> movies) {
+                        recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(movies, mListener));
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
         }
         return view;
     }

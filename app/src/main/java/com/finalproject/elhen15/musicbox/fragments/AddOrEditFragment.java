@@ -98,9 +98,19 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         }else {
             btnAddEdit.setText("Edit");
             btnAddEditDel.setVisibility(View.VISIBLE);
-            musicPost = Model.instance.getPostByID(POSTID);
-            edtTitle.setText(musicPost.getTitle());
-            edtDesc.setText(musicPost.getDesc());
+            Model.instance.getPostByID(POSTID, new Model.IGetPostCallback() {
+                @Override
+                public void onComplete(MusicPost musicPost) {
+                    edtTitle.setText(musicPost.getTitle());
+                    edtDesc.setText(musicPost.getDesc());
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+
         }
 
         btnAddEditDel.setOnClickListener(new View.OnClickListener() {
