@@ -20,6 +20,19 @@ public class ModelPostFirebase {
     private FirebaseDatabase database;
     private DatabaseReference postsReference;
 
+    // works with firebase
+    interface IUpdateMoveCallback {
+        void onComplete(boolean success);
+    }
+    public void editMovie(MusicPost musicPost, final IUpdateMoveCallback callback){
+        postsReference.child(musicPost.id).setValue(musicPost, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }
+        });
+    }
+
     interface IGetPostId {
         void getId(int id);
     }

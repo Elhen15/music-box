@@ -114,6 +114,35 @@ public class Model {
         modelPostFirebase.addPost(musicPost);
     }
 
+    // works with firebase
+    public interface IUpdatePostCallback {
+        void onComplete(boolean success);
+    }
+    public void updatePost(final MusicPost musicPost, final IUpdatePostCallback callback){
+        this.getPostByID(musicPost.id, new IGetPostCallback() {
+            @Override
+            public void onComplete(MusicPost otherMusicPost) {
+                if (otherMusicPost == null) {
+                    addPost(musicPost);
+                    callback.onComplete(true);
+                }
+                else {
+                    modelPostFirebase.editMovie(musicPost, new ModelPostFirebase.IUpdateMoveCallback() {
+                        @Override
+                        public void onComplete(boolean success) {
+                            callback.onComplete(success);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onComplete(false);
+            }
+        });
+    }
+
     // Getting list of all the posts
     public interface IGetAllPostsCallback {
         void onComplete(ArrayList<MusicPost> movies);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.R;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
+import com.finalproject.elhen15.musicbox.Utiles.Functions;
 import com.finalproject.elhen15.musicbox.fragments.MusicPostListFragment.OnListFragmentInteractionListener;
 
 import org.w3c.dom.Text;
@@ -42,7 +43,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        MusicPost wantedPost =  mValues.get(position);
+        final MusicPost wantedPost =  mValues.get(position);
 
         holder.mItem = wantedPost;
         holder.mIdView.setText(wantedPost.getId()+"");
@@ -51,9 +52,15 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         holder.mLikeButton.setOnClickListener(new View.OnClickListener(){
 
             // OnClick function for the like button
-            public void onClick(View v){
+            public void onClick(final View v){
                 if (null != mListener){
                     holder.mItem.setLikesCount(holder.mItem.getLikesCount()+1);
+                    Model.instance.updatePost(wantedPost, new Model.IUpdatePostCallback() {
+                        @Override
+                        public void onComplete(boolean success) {
+                            Functions.alertMessage(v,"You like it!",":)");
+                        }
+                    });
                 }
             }
         } );

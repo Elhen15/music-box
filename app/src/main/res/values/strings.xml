@@ -5,6 +5,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="player_error">Error initializing YouTube player: %s</string>
+    <string name="seek_to">Jump To</string>
+    <string name="seek_to_hint">Seconds</string>
     <string name="date_created">Date created</string>
     <string name="likes_counter">Number of Likes</string>
     <string name="description">Description</string>

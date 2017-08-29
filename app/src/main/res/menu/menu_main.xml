@@ -6,4 +6,12 @@
         android:title="add new"
         android:showAsAction="ifRoom"
         tools:ignore="AppCompatResource" />
+    <item android:id="@+id/my_movies"
+        android:title="My Movies"
+        tools:ignore="AppCompatResource"
+        android:showAsAction="ifRoom"/>
+    <item android:id="@+id/signout"
+        android:title="sign out"
+        tools:ignore="AppCompatResource"
+        android:showAsAction="ifRoom"/>
 </menu>
