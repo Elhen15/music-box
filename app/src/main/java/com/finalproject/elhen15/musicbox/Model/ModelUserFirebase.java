@@ -67,11 +67,14 @@ public class ModelUserFirebase {
         }
         else {
             final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            Log.d("dev","getCurrentUser ModelUserFirebase "+firebaseUser.getEmail());
 
+            //if (1==1){
             if (firebaseUser == null) {
                 callback.onComplete(null);
             }
             else {
+                Log.d("dev","getCurrentUser ModelUserFirebase "+ firebaseUser.getUid());
                 getUserById(firebaseUser.getUid(), new IGetUserByIdCallback() {
                     @Override
                     public void onComplete(User user) {
@@ -99,7 +102,7 @@ public class ModelUserFirebase {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Log.d("dev","onComplete userLogin ModelUserFirebase with null");
+                            Log.d("dev","onComplete userLogin ModelUserFirebase with null "+task.getException());
                             callback.onComplete(null);
                         }
                         else {
@@ -143,6 +146,11 @@ public class ModelUserFirebase {
                         }
                     }
                 });
+    }
+
+    public void signOut() {
+        firebaseAuth.signOut();
+        currentUser = null;
     }
 
 }

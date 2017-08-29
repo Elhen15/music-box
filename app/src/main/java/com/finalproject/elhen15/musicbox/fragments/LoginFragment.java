@@ -84,6 +84,7 @@ public class LoginFragment extends android.app.Fragment {
                 {
                     MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
                     onButtonPressed(listFragment);
+                    Model.user = currUser;
                 }
             }
         });

@@ -12,19 +12,23 @@ import java.util.Calendar;
 
 public class Model {
     private ModelUserFirebase modelUserFirebase;
+    private ModelPostFirebase modelPostFirebase;
     public final static Model instance = new Model();
+    public static User user = null;
 
     private Model(){
         modelUserFirebase = new ModelUserFirebase();
-        User user = new User("Elhen15@Gmail.com","222",true);
+        modelPostFirebase = new ModelPostFirebase();
 
-        for(int i = 0; i < 5; i++) {
+        //User user = new User("Elhen15@Gmail.com","222",true);
+
+        /*for(int i = 0; i < 5; i++) {
             MusicPost musicPost= new MusicPost();
             musicPost.setTitle("Metallica " + i);
             musicPost.setDesc("bla bla bla vvivjfi i jifjif ifjijf ijfijfi \n fjijf ijfijf ijifj iji "+ i);
             musicPost.setUser(user);
             data.add(musicPost);
-        }
+        }*/
     }
 
     private ArrayList<MusicPost> data = new ArrayList<>();
@@ -99,9 +103,10 @@ public class Model {
     }
 
 
+    // Adding music post, works with firebase
+
     public void addPost(MusicPost musicPost){
-        //musicPost.setImageUrl("../res/drawable/grid.png");
-        data.add(musicPost);
+        modelPostFirebase.addPost(musicPost);
     }
 
     public ArrayList<MusicPost> getAllMusicPosts(){
@@ -136,6 +141,6 @@ public class Model {
     }
 
     public void signUp(User user){
-
+        modelUserFirebase.signOut();
     }
 }

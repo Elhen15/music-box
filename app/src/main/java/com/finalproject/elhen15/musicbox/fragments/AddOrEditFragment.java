@@ -146,8 +146,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(final View v) {
         musicPost = new MusicPost();
-        User user = new User("aaaa","aaa",true);
-        musicPost.setUser(user);
+        musicPost.setUser(Model.user);
         musicPost.setTitle(edtTitle.getText().toString());
         musicPost.setDesc(edtDesc.getText().toString());
         //TODO: insert the user after we will save it on the session
