@@ -37,6 +37,20 @@ public class ModelUserFirebase {
     }
 
 
+    interface IRemoveUserCallback{
+        void  onComplete(boolean isSuccess);
+    }
+    public void removeUser(User user, final  IRemoveUserCallback callback)
+    {
+        usersReference.child(user.getId()).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }
+        });
+
+    }
+
     interface IUpdateUserCallback{
         void onComplete(boolean isSuccess);
         void onCancel();

@@ -63,6 +63,18 @@ public class MyUserRecyclerViewAdapter extends RecyclerView.Adapter<MyUserRecycl
             }
         });
 
+        holder.mBtnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                Model.instance.removeUser(user, new Model.IRemoveUserCallback() {
+                    @Override
+                    public void onComplete(boolean isSuccess) {
+                        Functions.alertMessage(view,"Deleted","User has been deleted");
+                    }
+                });
+            }
+        });
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

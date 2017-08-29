@@ -94,6 +94,20 @@ public class Model {
         });
     }
 
+
+    public interface IRemoveUserCallback{
+        void onComplete(boolean isSuccess);
+    }
+
+    public void removeUser(User user, final IRemoveUserCallback callback){
+        modelUserFirebase.removeUser(user, new ModelUserFirebase.IRemoveUserCallback() {
+            @Override
+            public void onComplete(boolean isSuccess) {
+                callback.onComplete(isSuccess);
+            }
+        });
+    }
+
     public interface IUpdateUserCallback {
         void onComplete(boolean success);
     }
