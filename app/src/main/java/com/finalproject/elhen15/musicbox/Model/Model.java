@@ -94,6 +94,23 @@ public class Model {
         });
     }
 
+    public interface IUpdateUserCallback {
+        void onComplete(boolean success);
+    }
+    public void updateUser(final User user, final IUpdateUserCallback callback) {
+        modelUserFirebase.updateUser(user, new ModelUserFirebase.IUpdateUserCallback() {
+            @Override
+            public void onComplete(boolean isSuccess) {
+                callback.onComplete(isSuccess);
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
+    }
+
+
 
 
     // Adding user - works with firebase
@@ -123,6 +140,7 @@ public class Model {
     public void addPost(MusicPost musicPost){
         modelPostFirebase.addPost(musicPost);
     }
+
 
     // works with firebase
     public interface IUpdatePostCallback {

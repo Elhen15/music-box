@@ -36,6 +36,21 @@ public class ModelUserFirebase {
         usersReference = database.getReference(USERS_KEY);
     }
 
+
+    interface IUpdateUserCallback{
+        void onComplete(boolean isSuccess);
+        void onCancel();
+    }
+
+    public void updateUser(User user,final IUpdateUserCallback callback){
+        usersReference.child(user.getId()).setValue(user, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }
+        });
+    }
+
     // Get all users
     interface IGetAllUsersCallback{
         public void onComplete(ArrayList<User> users);

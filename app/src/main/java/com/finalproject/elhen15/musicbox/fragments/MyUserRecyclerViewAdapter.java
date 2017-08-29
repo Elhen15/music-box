@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.R;
+import com.finalproject.elhen15.musicbox.Utiles.Functions;
 import com.finalproject.elhen15.musicbox.fragments.UserAdminFragment.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
@@ -44,7 +46,22 @@ public class MyUserRecyclerViewAdapter extends RecyclerView.Adapter<MyUserRecycl
         holder.mItem = user;
         holder.mUserName.setText(holder.mUserName.getText()+user.getEmail().substring(0,user.getEmail().indexOf("@")));
         holder.mPassword.setText(holder.mPassword.getText()+user.getPassword());
+        if (user.getIsAdmin())
+            holder.mBtnAdmin.setText("MAKE SIMPLE");
         holder.mItem = mValues.get(position);
+
+        holder.mBtnAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                user.setIsAdmin(!user.getIsAdmin());
+                Model.instance.updateUser(user, new Model.IUpdateUserCallback() {
+                    @Override
+                    public void onComplete(boolean success) {
+                        Functions.alertMessage(view,"Updated","User permission has been updated");
+                    }
+                });
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
