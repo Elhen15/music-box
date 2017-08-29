@@ -7,19 +7,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
+import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
+import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.fragments.AddOrEditFragment;
 import com.finalproject.elhen15.musicbox.fragments.LoginFragment;
 import com.finalproject.elhen15.musicbox.fragments.MusicPostDetails;
 import com.finalproject.elhen15.musicbox.fragments.MusicPostListFragment;
 import com.finalproject.elhen15.musicbox.fragments.SignUpFragment;
+import com.finalproject.elhen15.musicbox.fragments.UserAdminFragment;
 
 public class MainActivity extends ActionBarActivity implements
         LoginFragment.OnFragmentInteractionListener,
         MusicPostListFragment.OnListFragmentInteractionListener,
         AddOrEditFragment.OnFragmentInteractionListener,
         SignUpFragment.OnFragmentInteractionListener,
-        MusicPostDetails.OnFragmentInteractionListener{
+        MusicPostDetails.OnFragmentInteractionListener,
+        UserAdminFragment.OnListFragmentInteractionListener{
 
     LoginFragment loginFragmentInstance;
 
@@ -86,13 +90,26 @@ public class MainActivity extends ActionBarActivity implements
     // create the list fragment
     @Override
     public void onFragmentInteractionAddOrEdit() {
-        MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+        MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1, Model.user.getIsAdmin());
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.main_container, listFragment);
         transaction.addToBackStack("backMusicPostList");
         transaction.commit();
     }
 
+    // Empty function - must implement
+    @Override
+    public void onListFragmentInteraction(User user){}
+
+  /*  @Override
+    public void OnFragmentAdminChangeFrag(Fragment fragment)
+    {
+        transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_container, fragment);
+        transaction.addToBackStack("backList");
+        transaction.commit();
+    }
+*/
     // create sign up fragment
    /* @Override
     public void onFragmentSignUpInteraction() {

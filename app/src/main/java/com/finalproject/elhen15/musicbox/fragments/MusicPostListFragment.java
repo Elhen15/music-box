@@ -22,6 +22,8 @@ import com.finalproject.elhen15.musicbox.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.finalproject.elhen15.musicbox.MainActivity.transaction;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -46,7 +48,7 @@ public class MusicPostListFragment extends Fragment {
         musicPostListFragment = this;
     }
 
-    public static MusicPostListFragment newInstance(int columnCount) {
+    public static MusicPostListFragment newInstance(int columnCount,boolean isAdmin) {
         MusicPostListFragment fragment = new MusicPostListFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
@@ -143,8 +145,14 @@ public class MusicPostListFragment extends Fragment {
         inflater.inflate(R.menu.menu_main, menu);
 
         menu.clear();
+        // If the user choose to see only his posts
         if (MusicPostListFragment.postList != null)
             inflater.inflate(R.menu.menu_main_all_posts, menu);
+        // If the user is admin
+        else if (Model.user.getIsAdmin())
+            inflater.inflate(R.menu.menu_main_admin,menu);
+
+        // Simple user - first login
         else
             inflater.inflate(R.menu.menu_main, menu);
 
@@ -160,7 +168,7 @@ public class MusicPostListFragment extends Fragment {
                 tran.replace(R.id.main_container, details).commit();
                 break;
             case android.R.id.home:
-                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,Model.user.getIsAdmin());
                 tran = getFragmentManager().beginTransaction();
                 tran.replace(R.id.main_container, listFragment);
                 tran.commit();
@@ -177,12 +185,19 @@ public class MusicPostListFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
                 break;
+            case R.id.usersAdmin:
+                UserAdminFragment userAdminFragment = UserAdminFragment.newInstance(1);
+                tran = getFragmentManager().beginTransaction();
+                tran.replace(R.id.main_container,userAdminFragment).commit();
+                break;
             default:
                 break;
         }
 
         return true;
     }
+
+
 
     public void showOnlyUserPosts() {
 
@@ -213,6 +228,5 @@ public class MusicPostListFragment extends Fragment {
             public void onCancel() {
             }
         });
-
     }
 }

@@ -212,7 +212,7 @@ public class SignUpFragment extends Fragment {
         Model.instance.addUser(newUser, password, new Model.IAddUser() {
             @Override
             public void onComplete(User user) {
-                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,false);
                 onButtonPressed(listFragment);
             }
 

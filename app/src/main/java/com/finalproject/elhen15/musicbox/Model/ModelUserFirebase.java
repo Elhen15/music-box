@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 /**
  * Created by Elhen15 on 27/08/2017.
  */
@@ -32,6 +34,33 @@ public class ModelUserFirebase {
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         usersReference = database.getReference(USERS_KEY);
+    }
+
+    // Get all users
+    interface IGetAllUsersCallback{
+        public void onComplete(ArrayList<User> users);
+        public void onCancel();
+    }
+
+    public void getAllUsers(final IGetAllUsersCallback callback){
+        usersReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<User> users  = new ArrayList<>();
+
+                for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    User user = snap.getValue(User.class);
+                    users.add(user);
+                }
+
+                callback.onComplete(users);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCancel();
+            }
+        });
     }
 
     // Section login user

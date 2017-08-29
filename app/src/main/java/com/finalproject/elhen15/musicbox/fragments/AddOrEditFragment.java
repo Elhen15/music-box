@@ -244,7 +244,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
                 switch (ACTION) {
                     // return to list mode
                     case "Add":
-                        MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+                        MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,Model.user.getIsAdmin());
                         tran = getFragmentManager().beginTransaction();
                         tran.replace(R.id.main_container, listFragment);
                         tran.commit();

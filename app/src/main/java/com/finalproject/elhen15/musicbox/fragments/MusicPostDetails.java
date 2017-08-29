@@ -175,7 +175,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
 
                 break;
             case android.R.id.home:
-                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,Model.user.getIsAdmin());
                 tran = getFragmentManager().beginTransaction();
                 tran.replace(R.id.main_container, listFragment);
                 tran.commit();

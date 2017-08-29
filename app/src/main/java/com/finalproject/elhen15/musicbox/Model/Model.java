@@ -24,19 +24,29 @@ public class Model {
         modelUserFirebase = new ModelUserFirebase();
         modelPostFirebase = new ModelPostFirebase();
         modelStorageFirebase = new ModelStorageFirebase();
-
-        //User user = new User("Elhen15@Gmail.com","222",true);
-
-        /*for(int i = 0; i < 5; i++) {
-            MusicPost musicPost= new MusicPost();
-            musicPost.setTitle("Metallica " + i);
-            musicPost.setDesc("bla bla bla vvivjfi i jifjif ifjijf ijfijfi \n fjijf ijfijf ijifj iji "+ i);
-            musicPost.setUser(user);
-            data.add(musicPost);
-        }*/
     }
 
     private ArrayList<MusicPost> data = new ArrayList<>();
+
+    // Get all users
+
+    public interface IGetAllUsersCallback{
+        void onComplete(ArrayList<User> users);
+    }
+
+    public void getAllUsers(final IGetAllUsersCallback callback){
+        modelUserFirebase.getAllUsers(new ModelUserFirebase.IGetAllUsersCallback() {
+            @Override
+            public void onComplete(ArrayList<User> users) {
+                callback.onComplete(users);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
 
     // Getting user - works with firebase
 
@@ -168,7 +178,7 @@ public class Model {
         void onCancel();
     }
 
-    // get post bu id - firebase
+    // get post by id - firebase
     public void getPostByID (String postID, final IGetPostCallback callback){
         modelPostFirebase.getPostByID(postID, new ModelPostFirebase.IGetMusicPostCallback() {
             @Override

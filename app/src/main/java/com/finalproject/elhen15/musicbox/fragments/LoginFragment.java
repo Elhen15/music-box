@@ -82,9 +82,9 @@ public class LoginFragment extends android.app.Fragment {
                 }
                 else
                 {
-                    MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
-                    onButtonPressed(listFragment);
                     Model.user = currUser;
+                    MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,Model.user.getIsAdmin());
+                    onButtonPressed(listFragment);
                 }
             }
         });
@@ -210,7 +210,7 @@ public class LoginFragment extends android.app.Fragment {
 
                             Log.d("dev","onComplete - UserLogin LoginFragment: "+ user.getEmail());
                             if (user != null) {
-                                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1);
+                                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,user.getIsAdmin());
                                 onButtonPressed(listFragment);
                             } else {
                                 Functions.alertMessage(v, "Authentication failed", "Please try again");
