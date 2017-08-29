@@ -67,7 +67,7 @@ public class ModelUserFirebase {
         }
         else {
             final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-            Log.d("dev","getCurrentUser ModelUserFirebase "+firebaseUser.getEmail());
+            Log.d("dev","getCurrentUser ModelUserFirebase ");
 
             //if (1==1){
             if (firebaseUser == null) {

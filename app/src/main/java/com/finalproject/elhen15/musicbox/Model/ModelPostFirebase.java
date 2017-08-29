@@ -21,10 +21,10 @@ public class ModelPostFirebase {
     private DatabaseReference postsReference;
 
     // works with firebase
-    interface IUpdateMoveCallback {
+    interface IUpdatePostCallback {
         void onComplete(boolean success);
     }
-    public void editMovie(MusicPost musicPost, final IUpdateMoveCallback callback){
+    public void editPost(MusicPost musicPost, final IUpdatePostCallback callback){
         postsReference.child(musicPost.id).setValue(musicPost, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -76,21 +76,21 @@ public class ModelPostFirebase {
 
 
     interface IGetAlPostsCallback {
-        void onComplete(ArrayList<MusicPost> movies);
+        void onComplete(ArrayList<MusicPost> posts);
         void onCancel();
     }
-    public void getAllMovies(final IGetAlPostsCallback callback){
+    public void getAllPosts(final IGetAlPostsCallback callback){
         postsReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<MusicPost> movies = new ArrayList<>();
+                ArrayList<MusicPost> posts = new ArrayList<>();
 
                 for (DataSnapshot snap: dataSnapshot.getChildren()) {
                     MusicPost musicPost = snap.getValue(MusicPost.class);
-                    movies.add(musicPost);
+                    posts.add(musicPost);
                 }
 
-                callback.onComplete(movies);
+                callback.onComplete(posts);
             }
 
             @Override
@@ -105,8 +105,8 @@ public class ModelPostFirebase {
         void onComplete(MusicPost musicPost);
         void onCancel();
     }
-    public void getPostByID (String movieID, final IGetMusicPostCallback callback){
-        postsReference.child(movieID).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void getPostByID (String postID, final IGetMusicPostCallback callback){
+        postsReference.child(postID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 MusicPost mv = dataSnapshot.getValue(MusicPost.class);

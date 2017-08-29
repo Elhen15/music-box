@@ -37,12 +37,13 @@ public class MusicPostListFragment extends Fragment {
     public static FragmentTransaction tran;
     public RecyclerView recyclerView;
     public static List<MusicPost> postList;
-
+    public MusicPostListFragment musicPostListFragment;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public MusicPostListFragment() {
+        musicPostListFragment = this;
     }
 
     public static MusicPostListFragment newInstance(int columnCount) {
@@ -81,7 +82,7 @@ public class MusicPostListFragment extends Fragment {
             if (MusicPostListFragment.postList!= null) {
                 recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(MusicPostListFragment.postList, mListener));
             } else
-                Model.instance.getAllMovies(new Model.IGetAllPostsCallback() {
+                Model.instance.getAllPosts(new Model.IGetAllPostsCallback() {
                     @Override
                     public void onComplete(ArrayList<MusicPost> movies) {
                         recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(movies, mListener));
@@ -140,6 +141,13 @@ public class MusicPostListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
+
+        menu.clear();
+        if (MusicPostListFragment.postList != null)
+            inflater.inflate(R.menu.menu_main_all_posts, menu);
+        else
+            inflater.inflate(R.menu.menu_main, menu);
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -157,10 +165,56 @@ public class MusicPostListFragment extends Fragment {
                 tran.replace(R.id.main_container, listFragment);
                 tran.commit();
                 break;
+            case R.id.signout:
+                Log.d("dev","sign out the user");
+                Model.instance.signOut();
+                break;
+            case R.id.my_posts:
+                showOnlyUserPosts();
+                break;
+            case R.id.all_posts:
+                MusicPostListFragment.postList = null;
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
+                break;
             default:
                 break;
         }
 
         return true;
+    }
+
+    public void showOnlyUserPosts() {
+
+        Model.instance.getAllPosts(new Model.IGetAllPostsCallback() {
+            @Override
+            public void onComplete(ArrayList<MusicPost> posts) {
+                ArrayList<MusicPost> postToRemove = new ArrayList<MusicPost>();
+                ArrayList<MusicPost> userPosts;
+                userPosts = posts;
+
+                for (MusicPost musicPost: posts) {
+                    if (!musicPost.getUser().getId().equals(Model.user.getId())) {
+                        Log.d("dev", "only user posts removing post " + musicPost.getId());
+                        postToRemove.add(musicPost);
+                    }
+                }
+
+                for (MusicPost musicPost: postToRemove
+                     ) {
+                    posts.remove(musicPost);
+                }
+                MusicPostListFragment.postList = posts;
+
+                // Refresh the fragment
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
+
     }
 }

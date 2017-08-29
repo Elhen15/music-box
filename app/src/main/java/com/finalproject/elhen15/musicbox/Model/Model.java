@@ -127,7 +127,7 @@ public class Model {
                     callback.onComplete(true);
                 }
                 else {
-                    modelPostFirebase.editMovie(musicPost, new ModelPostFirebase.IUpdateMoveCallback() {
+                    modelPostFirebase.editPost(musicPost, new ModelPostFirebase.IUpdatePostCallback() {
                         @Override
                         public void onComplete(boolean success) {
                             callback.onComplete(success);
@@ -145,14 +145,14 @@ public class Model {
 
     // Getting list of all the posts
     public interface IGetAllPostsCallback {
-        void onComplete(ArrayList<MusicPost> movies);
+        void onComplete(ArrayList<MusicPost> posts);
         void onCancel();
     }
-    public void getAllMovies(final IGetAllPostsCallback callback){
-        modelPostFirebase.getAllMovies(new ModelPostFirebase.IGetAlPostsCallback() {
+    public void getAllPosts(final IGetAllPostsCallback callback){
+        modelPostFirebase.getAllPosts(new ModelPostFirebase.IGetAlPostsCallback() {
             @Override
-            public void onComplete(ArrayList<MusicPost> movies) {
-                callback.onComplete(movies);
+            public void onComplete(ArrayList<MusicPost> posts) {
+                callback.onComplete(posts);
             }
 
             @Override
@@ -169,8 +169,8 @@ public class Model {
     }
 
     // get post bu id - firebase
-    public void getPostByID (String movieID, final IGetPostCallback callback){
-        modelPostFirebase.getPostByID(movieID, new ModelPostFirebase.IGetMusicPostCallback() {
+    public void getPostByID (String postID, final IGetPostCallback callback){
+        modelPostFirebase.getPostByID(postID, new ModelPostFirebase.IGetMusicPostCallback() {
             @Override
             public void onComplete(MusicPost musicPost) {
                 callback.onComplete(musicPost);
@@ -201,7 +201,7 @@ public class Model {
     public void userLogin(String email, String password) {
     }
 
-    public void signUp(User user){
+    public void signOut(){
         modelUserFirebase.signOut();
     }
 
