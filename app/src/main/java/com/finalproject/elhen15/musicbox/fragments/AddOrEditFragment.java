@@ -4,7 +4,11 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Telephony;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -21,6 +25,7 @@ import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.R;
 
+import static android.app.Activity.RESULT_OK;
 import static com.finalproject.elhen15.musicbox.fragments.MusicPostDetails.tran;
 /**
  * A simple {@link Fragment} subclass.
@@ -30,11 +35,14 @@ import static com.finalproject.elhen15.musicbox.fragments.MusicPostDetails.tran;
  * Use the {@link AddOrEditFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
 public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_POSTID = "POSTID";
     private static final String ARG_ACTION = "ACTION";
+    private static final String DEFAULT_IMAGE = "https://firebasestorage.googleapis.com/v0/b/musicbox-80a7d.appspot.com/o/blank.png?alt=media&token=2d0d8ae4-31ee-44e1-bccb-69b2c547d788";
 
     private String POSTID;
     private String ACTION;
@@ -44,6 +52,8 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     private static EditText edtDesc = null;
 
     private static ImageView edtImage = null;
+    private Bitmap musicImageBitmap ;
+    boolean isSuccesUpload =false;
 
 
     private OnFragmentInteractionListener mListener;
@@ -133,7 +143,31 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
 
         btnAddEdit.setOnClickListener(this);
 
+        edtImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dispatchTakePictureIntent();
+            }
+        });
         return v;
+    }
+
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            musicImageBitmap = (Bitmap) extras.get("data");
+            edtImage.setImageBitmap(musicImageBitmap);
+        }
     }
 
     @Override
@@ -155,15 +189,37 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(final View v) {
+
         musicPost = new MusicPost();
         musicPost.setUser(Model.user);
         musicPost.setTitle(edtTitle.getText().toString());
         musicPost.setDesc(edtDesc.getText().toString());
-        //TODO: insert the user after we will save it on the session
-        musicPost.setImageUrl("../res/drawable/blank.png");
-        Model.instance.addPost(musicPost);
-        Functions.alertMessage(v,"Message","Music post has been added! : )");
-        mListener.onFragmentInteractionAddOrEdit();
+
+        // if the default image is
+        if (musicImageBitmap == null) {
+            musicPost.setImageUrl(DEFAULT_IMAGE);
+        }
+        else {
+
+            long timeStamp = System.currentTimeMillis();
+            String imageName = musicPost.getTitle() + "-" + timeStamp + ".jpeg";
+            Model.instance.saveImage(musicImageBitmap, imageName, new Model.ISaveImageCallback() {
+                @Override
+                public void onComplete(String imageUrl) {
+                    Log.d("dev","onComplete addoreditfragment saveImage "+ imageUrl+" " + isSuccesUpload);
+                    musicPost.setImageUrl(imageUrl);
+                    Model.instance.addPost(musicPost);
+                    // for the next time
+                    Functions.alertMessage(v, "Message", "Music post has been added! : )");
+                    mListener.onFragmentInteractionAddOrEdit();
+                }
+
+                @Override
+                public void onCancel() {
+
+                }
+            });
+        }
 
     }
 

@@ -4,7 +4,9 @@ package com.finalproject.elhen15.musicbox.Model;
  * Created by Elhen15 on 29/07/2017.
  */
 
+import android.graphics.Bitmap;
 import android.util.Log;
+import android.webkit.URLUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,12 +15,15 @@ import java.util.Calendar;
 public class Model {
     private ModelUserFirebase modelUserFirebase;
     private ModelPostFirebase modelPostFirebase;
+    private ModelStorageFirebase modelStorageFirebase;
+
     public final static Model instance = new Model();
     public static User user = null;
 
     private Model(){
         modelUserFirebase = new ModelUserFirebase();
         modelPostFirebase = new ModelPostFirebase();
+        modelStorageFirebase = new ModelStorageFirebase();
 
         //User user = new User("Elhen15@Gmail.com","222",true);
 
@@ -172,4 +177,65 @@ public class Model {
     }
 
 
+    // image functions
+    public interface ISaveImageCallback {
+        void onComplete(String imageUrl);
+        void onCancel();
+    }
+
+
+    public void saveImage(final Bitmap imageBmp, final String name, final ISaveImageCallback callback) {
+        modelStorageFirebase.saveImage(imageBmp, name, new ModelStorageFirebase.ISaveImageCallback() {
+            @Override
+            public void onComplete(String url) {
+                String fileName = URLUtil.guessFileName(url, null, null);
+                ModelFiles.saveImageToFile(imageBmp,fileName);
+                callback.onComplete(url);
+            }
+
+            @Override
+            public void onCancel() {
+                callback.onCancel();
+            }
+        });
+    }
+
+    public interface IGetImageCallback {
+        void onComplete(Bitmap image);
+        void onCancel();
+    }
+
+    public void getImage(final String url, final IGetImageCallback callback) {
+
+        // If the local storage has the image
+        final String fileName = URLUtil.guessFileName(url, null, null);
+
+        ModelFiles.loadImageFromFileAsynch(fileName, new ModelFiles.LoadImageFromFileAsynch() {
+            @Override
+            public void onComplete(Bitmap bitmap) {
+                if (bitmap != null){
+                    Log.d("TAG","getImage from local success " + fileName);
+                    callback.onComplete(bitmap);
+                }else {
+                    modelStorageFirebase.getImage(url, new ModelStorageFirebase.IGetImageCallback() {
+                        @Override
+                        public void onComplete(Bitmap image) {
+                            String fileName = URLUtil.guessFileName(url, null, null);
+                            Log.d("TAG","getImage from FB success " + fileName);
+                            ModelFiles.saveImageToFile(image,fileName);
+                            callback.onComplete(image);
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            Log.d("TAG","getImage from FB fail ");
+                            callback.onCancel();
+                        }
+                    });
+
+                }
+            }
+        });
+
+    }
 }

@@ -1,10 +1,12 @@
 package com.finalproject.elhen15.musicbox.fragments;
 
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.finalproject.elhen15.musicbox.Model.Model;
@@ -56,6 +58,24 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
             }
         } );
 
+        holder.mImageView.setTag(holder.mItem.getImageUrl());
+
+        if (holder.mItem.getImageUrl() != null && !holder.mItem.getImageUrl().isEmpty() && !holder.mItem.getImageUrl().equals("")) {
+            Model.instance.getImage(wantedPost.getImageUrl(), new Model.IGetImageCallback() {
+                @Override
+                public void onComplete(Bitmap image) {
+                    String tagUrl = holder.mImageView.getTag().toString();
+                    if (tagUrl.equals(holder.mItem.getImageUrl())) {
+                        holder.mImageView.setImageBitmap(image);
+                    }
+                }
+
+                @Override
+                public void onCancel() {
+                }
+            });
+        }
+
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,10 +99,12 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         public final TextView mContentView;
         public final TextView mUserName;
         public final ImageButton mLikeButton;
+        public final ImageView mImageView;
         public MusicPost mItem;
 
         public ViewHolder(View view) {
             super(view);
+            mImageView =(ImageView)view.findViewById(R.id.strow_image);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.strow_id);
             mContentView = (TextView) view.findViewById(R.id.strow_name);
