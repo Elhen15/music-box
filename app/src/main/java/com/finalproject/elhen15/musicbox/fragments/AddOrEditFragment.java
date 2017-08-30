@@ -127,12 +127,14 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         btnAddEditDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                Model.instance.removePost(musicPost, new Model.IRemovePostCallback() {
+                musicPost.setIsDeleted(true);
+                Model.instance.editPost(musicPost, new Model.IEditPostCallback() {
                     @Override
                     public void onComplete() {
                         Functions.alertMessage(v,"Message","Music post has been deleted :/");
                         mListener.onFragmentInteractionAddOrEdit();
                     }
+                    public void onCancel(){}
                 });
                 }
             });

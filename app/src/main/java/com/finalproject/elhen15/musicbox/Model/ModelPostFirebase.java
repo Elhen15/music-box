@@ -130,7 +130,8 @@ public class ModelPostFirebase {
 
                 for (DataSnapshot snap: dataSnapshot.getChildren()) {
                     MusicPost musicPost = snap.getValue(MusicPost.class);
-                    posts.add(musicPost);
+                    if (!musicPost.isDeleted())
+                        posts.add(musicPost);
                 }
 
                 callback.onComplete(posts);

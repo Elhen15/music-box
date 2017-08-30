@@ -71,6 +71,10 @@ public class MusicPost extends Entity {
         this.user = user;
     }
 
+    public void setIsDeleted(boolean isDeleted){
+        this.isDeleted=isDeleted;
+    }
+
     public boolean isDeleted() {
         return isDeleted;
     }
