@@ -178,9 +178,6 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
                     @Override
                     public void onComplete(MusicPost musicPost) {
                         User postUser = musicPost.getUser();
-                        Log.d("dev","this is the user per: "+ Model.user.getIsAdmin());
-                        Log.d("dev","this is the user mail: "+ Model.user.getEmail());
-                        Log.d("dev","this is the post mail: "+ musicPost.getUser().getEmail());
 
                         if (Model.user.getIsAdmin() || postUser.getEmail().equals(Model.user.getEmail()))
                         {

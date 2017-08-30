@@ -226,6 +226,36 @@ public class Model {
     }
 
 
+    public interface IRemovePostCallback{
+        void onComplete();
+    }
+
+    public void removePost(MusicPost musicPost, final IRemovePostCallback callback)
+    {
+        modelPostFirebase.removePost(musicPost, new ModelPostFirebase.IRemovePostCallback() {
+            @Override
+            public void onComplete(boolean isSuccess) {
+                callback.onComplete();
+            }
+        });
+    }
+
+
+    public interface IEditPostCallback{
+        void onComplete();
+        void onCancel();
+    }
+
+    public void editPost(MusicPost musicPost, final IEditPostCallback callback)
+    {
+        modelPostFirebase.editPost(musicPost, new ModelPostFirebase.IUpdatePostCallback() {
+            @Override
+            public void onComplete(boolean success) {
+                callback.onComplete();
+            }
+        });
+    }
+
     public interface IGetPostCallback  {
         void onComplete(MusicPost musicPost);
         void onCancel();
@@ -244,21 +274,6 @@ public class Model {
                 callback.onCancel();
             }
         });
-    }
-
-    public Boolean removePost(MusicPost musicPost) {
-        return data.remove(musicPost);
-    }
-
-    public Boolean editPost(MusicPost musicPost){
-       // if (this.getPostByID(musicPost.getId()) == null) {
-       //     this.addPost(musicPost);
-       // }else {
-            data.remove(musicPost);
-            data.add(musicPost);
-        //}
-
-        return true;
     }
 
     public void userLogin(String email, String password) {

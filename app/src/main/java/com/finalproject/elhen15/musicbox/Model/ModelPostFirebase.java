@@ -48,6 +48,20 @@ public class ModelPostFirebase {
         });
     }
 
+    interface IRemovePostCallback{
+        void  onComplete(boolean isSuccess);
+    }
+    public void removePost(MusicPost musicPost, final IRemovePostCallback callback)
+    {
+        postsReference.child(musicPost.getId()).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                callback.onComplete(databaseError == null);
+            }
+        });
+
+    }
+
 
     // works with firebase
     interface IUpdatePostCallback {

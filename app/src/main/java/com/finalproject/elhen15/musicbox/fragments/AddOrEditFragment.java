@@ -110,7 +110,8 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             btnAddEditDel.setVisibility(View.VISIBLE);
             Model.instance.getPostByID(POSTID, new Model.IGetPostCallback() {
                 @Override
-                public void onComplete(MusicPost musicPost) {
+                public void onComplete(MusicPost musicPostCopy) {
+                    musicPost = musicPostCopy;
                     edtTitle.setText(musicPost.getTitle());
                     edtDesc.setText(musicPost.getDesc());
                 }
@@ -125,14 +126,16 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
 
         btnAddEditDel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (Model.instance.removePost(musicPost)) {
-                    Functions.alertMessage(v,"Message","Music post has been deleted :/");
+            public void onClick(final View v) {
+                Model.instance.removePost(musicPost, new Model.IRemovePostCallback() {
+                    @Override
+                    public void onComplete() {
+                        Functions.alertMessage(v,"Message","Music post has been deleted :/");
+                        mListener.onFragmentInteractionAddOrEdit();
+                    }
+                });
                 }
-
-                mListener.onFragmentInteractionAddOrEdit();
-            }
-        });
+            });
 
                 btnAddEditCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,18 +203,13 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             musicPost.setImageUrl(DEFAULT_IMAGE);
         }
         else {
-
             long timeStamp = System.currentTimeMillis();
             String imageName = musicPost.getTitle() + "-" + timeStamp + ".jpeg";
             Model.instance.saveImage(musicImageBitmap, imageName, new Model.ISaveImageCallback() {
                 @Override
                 public void onComplete(String imageUrl) {
-                    Log.d("dev","onComplete addoreditfragment saveImage "+ imageUrl+" " + isSuccesUpload);
+                    Log.d("dev", "onComplete addoreditfragment saveImage " + imageUrl + " " + isSuccesUpload);
                     musicPost.setImageUrl(imageUrl);
-                    Model.instance.addPost(musicPost);
-                    // for the next time
-                    Functions.alertMessage(v, "Message", "Music post has been added! : )");
-                    mListener.onFragmentInteractionAddOrEdit();
                 }
 
                 @Override
@@ -221,6 +219,25 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             });
         }
 
+        if (ACTION.equals("Add")) {
+            Model.instance.addPost(musicPost);
+            // for the next time
+            Functions.alertMessage(v, "Message", "Music post has been added! : )");
+            mListener.onFragmentInteractionAddOrEdit();
+            }
+        else {
+            musicPost.setId(POSTID);
+            Model.instance.editPost(musicPost, new Model.IEditPostCallback() {
+                @Override
+                public void onComplete() {
+                    Functions.alertMessage(v, "Message", "Music post has been edited! : )");
+                    mListener.onFragmentInteractionAddOrEdit();
+                }
+                @Override
+                public void onCancel() {
+                }
+            });
+        }
     }
 
     /**
