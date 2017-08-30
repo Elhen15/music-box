@@ -6,7 +6,7 @@ package com.finalproject.elhen15.musicbox.Utiles;
 
 public class Config {
 
-    public static final String YOUTUBE_API_KEY = "AIzaSyC7dkD_zV4__Iis19VgtwrWT6Z0JoZnv_M";
+    public static final String YOUTUBE_API_KEY = "KEY";
 
 
     private Config(){
