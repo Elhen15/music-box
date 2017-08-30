@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.User;
@@ -41,6 +42,7 @@ public class LoginFragment extends android.app.Fragment {
 
     private EditText emailEditText;
     private EditText passwordEditText;
+    private ProgressBar progressBar;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -73,12 +75,16 @@ public class LoginFragment extends android.app.Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_login, container, false);
 
+        progressBar = (ProgressBar) view.findViewById(R.id.login_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+        progressBar.bringToFront();
+
         Model.instance.getCurrentUser(new Model.IGetCurrentUserCallback(){
             @Override
             public void onComplete(User currUser){
                 if(currUser==null){
                     actuallyCreateTheView(view);
-                    //TODO:ProgressBar
+                    progressBar.setVisibility(View.GONE);
                 }
                 else
                 {
@@ -201,15 +207,16 @@ public class LoginFragment extends android.app.Fragment {
                     alertDialog.show();
                 }
                 else {
-                    //progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
 
                     Model.instance.userLogin(email, password, new Model.IGetUserLoginCallback() {
                         @Override
                         public void onComplete(User user) {
-                           // progressBar.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
 
                             Log.d("dev","onComplete - UserLogin LoginFragment: "+ user.getEmail());
                             if (user != null) {
+                                Model.user = user;
                                 MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,user.getIsAdmin());
                                 onButtonPressed(listFragment);
                             } else {
