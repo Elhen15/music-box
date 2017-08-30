@@ -15,10 +15,39 @@ import java.util.ArrayList;
 
 public class ModelPostFirebase {
 
+    private static final String COMMENTS = "Comments";
     private static final String POSTS_ID = "PostsId";
     private static final String POSTS_KEY = "Posts";
     private FirebaseDatabase database;
     private DatabaseReference postsReference;
+
+    // Firebase
+    interface IGetCommentsOfPostCallback{
+        void onComplete(ArrayList<Comment> comments);
+        void onCancel();
+    }
+
+    public void getCommentsOfPosts(String postId,final IGetCommentsOfPostCallback callback) {
+        postsReference.child(postId).child(COMMENTS).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ArrayList<Comment> comments = new ArrayList<>();
+
+                for (DataSnapshot snap: dataSnapshot.getChildren()) {
+                    Comment comment = snap.getValue(Comment.class);
+                    comments.add(comment);
+                }
+                callback.onComplete(comments);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onCancel();
+            }
+        });
+    }
+
 
     // works with firebase
     interface IUpdatePostCallback {

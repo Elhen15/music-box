@@ -1,5 +1,6 @@
 package com.finalproject.elhen15.musicbox.Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -11,6 +12,7 @@ public class MusicPost extends Entity {
     private String desc;
     private String imageUrl;
     private User user;
+    private ArrayList <Comment> comments;
     private boolean isDeleted;
     private int likesCount;
     private String youtubeURL;
@@ -27,6 +29,14 @@ public class MusicPost extends Entity {
 
     public MusicPost(){
         super();
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
     }
 
     public String getTitle() {

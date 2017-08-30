@@ -156,6 +156,27 @@ public class Model {
     }
 
 
+    public interface IGetCommentsOfPostsCallback{
+        void onComplete(ArrayList<Comment> comments);
+        void onCancel();
+    }
+
+    public void getCommentsOfPosts(String PostId, final IGetCommentsOfPostsCallback callback)
+    {
+        modelPostFirebase.getCommentsOfPosts(PostId, new ModelPostFirebase.IGetCommentsOfPostCallback() {
+            @Override
+            public void onComplete(ArrayList<Comment> comments) {
+                callback.onComplete(comments);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+    }
+
+
     // works with firebase
     public interface IUpdatePostCallback {
         void onComplete(boolean success);
