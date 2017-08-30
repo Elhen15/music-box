@@ -127,7 +127,6 @@ public class ModelUserFirebase {
             final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
             Log.d("dev","getCurrentUser ModelUserFirebase ");
 
-            //if (1==1){
             if (firebaseUser == null) {
                 callback.onComplete(null);
             }

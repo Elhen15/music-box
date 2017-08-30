@@ -54,13 +54,26 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
             // OnClick function for the like button
             public void onClick(final View v){
                 if (null != mListener){
-                    holder.mItem.setLikesCount(holder.mItem.getLikesCount()+1);
-                    Model.instance.updatePost(wantedPost, new Model.IUpdatePostCallback() {
-                        @Override
-                        public void onComplete(boolean success) {
-                            Functions.alertMessage(v,"You like it!",":)");
-                        }
-                    });
+                    if (isAlreadyLikeIt(wantedPost))
+                    {
+                        Functions.alertMessage(v, "Sorry", "You already like it..");
+                    }
+                    else {
+                        Model.user.addPostLike(wantedPost);
+                        Model.instance.updateUser(Model.user, new Model.IUpdateUserCallback() {
+                            @Override
+                            public void onComplete(boolean success) {
+                                holder.mItem.setLikesCount(holder.mItem.getLikesCount() + 1);
+                                Model.instance.updatePost(wantedPost, new Model.IUpdatePostCallback() {
+                                    @Override
+                                    public void onComplete(boolean success) {
+                                        Functions.alertMessage(v, "You like it!", ":)");
+
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
             }
         } );
@@ -93,6 +106,18 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
                 }
             }
         });
+    }
+
+    public boolean isAlreadyLikeIt(MusicPost wantedPost)
+    {
+        for (MusicPost musicPost: Model.user.getPostLikes())
+        {
+            if (musicPost.getId().equals(wantedPost.getId()))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

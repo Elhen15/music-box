@@ -88,6 +88,7 @@ public class LoginFragment extends android.app.Fragment {
                 }
                 else
                 {
+                    Model.user = new User();
                     Model.user = currUser;
                     MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,Model.user.getIsAdmin());
                     onButtonPressed(listFragment);
@@ -216,6 +217,7 @@ public class LoginFragment extends android.app.Fragment {
 
                             Log.d("dev","onComplete - UserLogin LoginFragment: "+ user.getEmail());
                             if (user != null) {
+                                Model.user = new User();
                                 Model.user = user;
                                 MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,user.getIsAdmin());
                                 onButtonPressed(listFragment);
