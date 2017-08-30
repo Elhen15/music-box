@@ -81,9 +81,8 @@ public class MainActivity extends ActionBarActivity implements
 
         transaction = getFragmentManager().beginTransaction();
         transaction.hide(this.musicPostDetailsFragmentInstance);
-        transaction.replace(R.id.main_container, details).commit();
         transaction.addToBackStack("backPostDetails");
-        transaction.commit();
+        transaction.replace(R.id.main_container, details).commit();
     }
 
 

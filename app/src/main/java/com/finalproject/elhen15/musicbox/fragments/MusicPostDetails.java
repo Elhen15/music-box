@@ -20,9 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.R;
 import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.Model.Model;
+import com.finalproject.elhen15.musicbox.Utiles.Functions;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -171,7 +174,29 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit:
-                mListener.onFragmentInteraction(MusicPostID);
+                Model.instance.getPostByID(MusicPostID, new Model.IGetPostCallback() {
+                    @Override
+                    public void onComplete(MusicPost musicPost) {
+                        User postUser = musicPost.getUser();
+                        Log.d("dev","this is the user per: "+ Model.user.getIsAdmin());
+                        Log.d("dev","this is the user mail: "+ Model.user.getEmail());
+                        Log.d("dev","this is the post mail: "+ musicPost.getUser().getEmail());
+
+                        if (Model.user.getIsAdmin() || postUser.getEmail().equals(Model.user.getEmail()))
+                        {
+                            mListener.onFragmentInteraction(MusicPostID);
+                        }
+                        else
+                        {
+                            Functions.alertMessage(getView(),"Hey","It's not your post, sorry");
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
 
                 break;
             case android.R.id.home:
