@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.finalproject.elhen15.musicbox.Model.Model;
@@ -59,6 +60,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
                         Functions.alertMessage(v, "Sorry", "You already like it..");
                     }
                     else {
+                        holder.progressBar.setVisibility(View.VISIBLE);
                         Model.user.addPostLike(wantedPost);
                         Model.instance.updateUser(Model.user, new Model.IUpdateUserCallback() {
                             @Override
@@ -67,6 +69,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
                                 Model.instance.updatePost(wantedPost, new Model.IUpdatePostCallback() {
                                     @Override
                                     public void onComplete(boolean success) {
+                                        holder.progressBar.setVisibility(View.GONE);
                                         Functions.alertMessage(v, "You like it!", ":)");
 
                                     }
@@ -80,13 +83,16 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
 
         holder.mImageView.setTag(holder.mItem.getImageUrl());
 
-        if (holder.mItem.getImageUrl() != null && !holder.mItem.getImageUrl().isEmpty() && !holder.mItem.getImageUrl().equals("")) {
+        if (holder.mItem.getImageUrl() != null && !holder.mItem.getImageUrl().isEmpty() &&
+                !holder.mItem.getImageUrl().equals("")) {
+            holder.progressBar.setVisibility(View.VISIBLE);
             Model.instance.getImage(wantedPost.getImageUrl(), new Model.IGetImageCallback() {
                 @Override
                 public void onComplete(Bitmap image) {
                     String tagUrl = holder.mImageView.getTag().toString();
                     if (tagUrl.equals(holder.mItem.getImageUrl())) {
                         holder.mImageView.setImageBitmap(image);
+                        holder.progressBar.setVisibility(View.GONE);
                     }
                 }
 
@@ -133,6 +139,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
         public final ImageButton mLikeButton;
         public final ImageView mImageView;
         public MusicPost mItem;
+        public final ProgressBar progressBar;
 
         public ViewHolder(View view) {
             super(view);
@@ -142,6 +149,7 @@ public class MyMusicPostListRecyclerViewAdapter extends RecyclerView.Adapter<MyM
             mContentView = (TextView) view.findViewById(R.id.strow_name);
             mUserName = (TextView) view.findViewById(R.id.author_name);
             mLikeButton = (ImageButton) view.findViewById(R.id.imageButton);
+            progressBar = (ProgressBar)view.findViewById(R.id.post_progressBar);
         }
 
         @Override
