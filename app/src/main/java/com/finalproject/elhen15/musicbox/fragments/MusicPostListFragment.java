@@ -176,9 +176,17 @@ public class MusicPostListFragment extends Fragment {
             case R.id.signout:
                 Log.d("dev","sign out the user");
                 Model.instance.signOut();
+                LoginFragment loginFragment = LoginFragment.newInstance();
+                tran = getFragmentManager().beginTransaction();
+                tran.replace(R.id.main_container, loginFragment);
+                tran.commit();
+
                 break;
             case R.id.my_posts:
                 showOnlyUserPosts();
+                break;
+            case R.id.my_likes:
+                showOnlyUserLikes();
                 break;
             case R.id.all_posts:
                 MusicPostListFragment.postList = null;
@@ -197,10 +205,7 @@ public class MusicPostListFragment extends Fragment {
         return true;
     }
 
-
-
     public void showOnlyUserPosts() {
-
         Model.instance.getAllPosts(new Model.IGetAllPostsCallback() {
             @Override
             public void onComplete(ArrayList<MusicPost> posts) {
@@ -218,6 +223,39 @@ public class MusicPostListFragment extends Fragment {
                     posts.remove(musicPost);
                 }
                 MusicPostListFragment.postList = posts;
+
+                Log.d("dev","Refresh fragment");
+                // Refresh the fragment
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
+    }
+
+
+    public void showOnlyUserLikes() {
+        Model.instance.getAllPosts(new Model.IGetAllPostsCallback() {
+            @Override
+            public void onComplete(ArrayList<MusicPost> posts) {
+                ArrayList<MusicPost> postToLike = new ArrayList<MusicPost>();
+
+             /*   for (MusicPost musicPost: posts) {
+                    for (MusicPost postLike: Model.user.getPostLikes()) {
+                        if(musicPost.getId().equals(postLike.getId())){
+                            postToLike.add(musicPost);
+                        }
+                    }
+                }*/
+
+                /*for (MusicPost musicPost: postToLike) {
+                    posts.clear();
+                    posts.add(musicPost);
+                }*/
+                MusicPostListFragment.postList = Model.user.getPostLikes();
 
                 // Refresh the fragment
                 FragmentTransaction ft = getFragmentManager().beginTransaction();

@@ -215,7 +215,7 @@ public class LoginFragment extends android.app.Fragment {
                         public void onComplete(User user) {
                             progressBar.setVisibility(View.GONE);
 
-                            Log.d("dev","onComplete - UserLogin LoginFragment: "+ user.getEmail());
+                            Log.d("dev","onComplete - UserLogin LoginFragment");
                             if (user != null) {
                                 Model.user = new User();
                                 Model.user = user;
