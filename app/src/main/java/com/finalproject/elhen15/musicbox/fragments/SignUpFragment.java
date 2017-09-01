@@ -36,6 +36,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -148,7 +149,7 @@ public class SignUpFragment extends Fragment {
 
     public AlertDialog validate(){
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         // Get all edittext texts
         String getEmailId = txtEmail.getText().toString();
@@ -179,6 +180,13 @@ public class SignUpFragment extends Fragment {
                         }
                     });
 
+        else if (getPassword.length() <6)
+            builder.setMessage("Password must be at least 6 len.").setPositiveButton
+                    ("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    txtPassword.requestFocus();
+                }
+            });
             // Check if both password should be equal
         else if (!getConfirmPassword.equals(getPassword))
             builder.setMessage("Both password doesn't match.")
@@ -197,8 +205,6 @@ public class SignUpFragment extends Fragment {
         else
             return null;
 
-
-        // Create the AlertDialog object and return it
         return builder.create();
     }
 
@@ -221,7 +227,7 @@ public class SignUpFragment extends Fragment {
 
             @Override
             public void onError(String reason) {
-                Toast.makeText(v.getContext(), "Unable to create user, Please try again", Toast.LENGTH_LONG);
+                Toast.makeText(v.getContext(), "Unable to create user, Please try again: "+reason , Toast.LENGTH_LONG).show();
             }
         });
     }

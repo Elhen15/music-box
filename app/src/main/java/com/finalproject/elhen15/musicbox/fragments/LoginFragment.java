@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.User;
@@ -90,7 +91,12 @@ public class LoginFragment extends android.app.Fragment {
                 {
                     Model.user = new User();
                     Model.user = currUser;
-                    Functions.helloUser(view,currUser.getEmail().substring(0,currUser.getEmail().indexOf("@")));
+                    if (currUser.getIsAdmin())
+                        Toast.makeText(view.getContext(), "Welcome Admin "+currUser.getEmail().
+                                substring(0,currUser.getEmail().indexOf("@")) +" to MusicBox", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(view.getContext(), "Welcome User "+currUser.getEmail().
+                                substring(0,currUser.getEmail().indexOf("@")) +" to MusicBox", Toast.LENGTH_LONG).show();
 
                     MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,Model.user.getIsAdmin());
                     onButtonPressed(listFragment);
@@ -172,7 +178,7 @@ public class LoginFragment extends android.app.Fragment {
         return builder.create();
     }
 
-    private void actuallyCreateTheView(View view) {
+    private void actuallyCreateTheView(final View view) {
         emailEditText = (EditText) view.findViewById(R.id.editText_username);
         passwordEditText = (EditText) view.findViewById(R.id.editText_pw);
 
@@ -211,8 +217,12 @@ public class LoginFragment extends android.app.Fragment {
                             if (user != null) {
                                 Model.user = new User();
                                 Model.user = user;
-                                Functions.helloUser(v,user.getEmail().substring(0,user.getEmail().indexOf("@")));
-                                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,user.getIsAdmin());
+                                if (user.getIsAdmin())
+                                    Toast.makeText(view.getContext(), "Welcome Admin "+user.getEmail().
+                                            substring(0,user.getEmail().indexOf("@")) +" to MusicBox", Toast.LENGTH_LONG).show();
+                                else
+                                    Toast.makeText(view.getContext(), "Welcome User "+user.getEmail().
+                                            substring(0,user.getEmail().indexOf("@")) +" to MusicBox", Toast.LENGTH_LONG).show();                                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,user.getIsAdmin());
                                 onButtonPressed(listFragment);
                             } else {
                                 Functions.alertMessage(v, "Authentication failed", "Please try again");
