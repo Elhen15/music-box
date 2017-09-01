@@ -123,7 +123,7 @@ public class ModelPostFirebase {
         void onCancel();
     }
     public void getAllPosts(final IGetAlPostsCallback callback){
-        postsReference.addValueEventListener(new ValueEventListener() {
+        postsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<MusicPost> posts = new ArrayList<>();

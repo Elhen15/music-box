@@ -17,6 +17,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
     public TextView postDescription;
     public TextView dateCreated;
     public TextView likesCount;
+    public ProgressBar progressBar;
 
     public MusicPostDetails() {
         // Required empty public constructor
@@ -87,7 +89,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
 
         final MusicPost currentPost;
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_music_post_details, container, false);
+        final View view = inflater.inflate(R.layout.fragment_music_post_details, container, false);
 
         final LinearLayout l = (LinearLayout) view.findViewById(R.id.detail_frag);
 
@@ -95,8 +97,11 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
         postDescription = (TextView) view.findViewById(R.id.details_music_description);
         dateCreated = (TextView) view.findViewById(R.id.details_music_create);
         likesCount = (TextView) view.findViewById(R.id.details_music_likes);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar_details);
+
         WebView myWebView = (WebView) view.findViewById( R.id.youtube_webview);
 
+        progressBar.setVisibility(view.VISIBLE);
         Model.instance.getPostByID(MusicPostID, new Model.IGetPostCallback() {
             @Override
             public void onComplete(MusicPost musicPost) {
@@ -104,7 +109,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
                 postDescription.setText(getString(R.string.description)+": "+musicPost.getDesc());
                 dateCreated.setText(getString(R.string.date_created)+": "+musicPost.getDate().toString());
                 likesCount.setText(getString(R.string.likes_counter)+": "+musicPost.getLikesCount()+"");
-
+                progressBar.setVisibility(view.GONE);
             }
 
             @Override
