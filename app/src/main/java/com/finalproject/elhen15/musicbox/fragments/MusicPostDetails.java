@@ -99,7 +99,7 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
         likesCount = (TextView) view.findViewById(R.id.details_music_likes);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar_details);
 
-        WebView myWebView = (WebView) view.findViewById( R.id.youtube_webview);
+        //WebView myWebView = (WebView) view.findViewById( R.id.youtube_webview);
 
         progressBar.setVisibility(view.VISIBLE);
         Model.instance.getPostByID(MusicPostID, new Model.IGetPostCallback() {
@@ -119,10 +119,10 @@ public class MusicPostDetails extends Fragment implements View.OnClickListener{
         });
 
 
-        myWebView.setWebChromeClient(new WebChromeClient());
+        /*myWebView.setWebChromeClient(new WebChromeClient());
         WebSettings ws = myWebView.getSettings();
         ws.setBuiltInZoomControls(true);
-        ws.setJavaScriptEnabled(true);
+        ws.setJavaScriptEnabled(true);*/
         //myWebView.loadUrl("http://www.youtube.com/embed/bIPcobKMB94");
 
         //String playVideo= "<html><body>Youtube video .. <br> <iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/bIPcobKMB94\" frameborder=\"0\"></body></html>";

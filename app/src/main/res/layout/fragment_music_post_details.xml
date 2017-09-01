@@ -51,10 +51,24 @@
             android:text="@string/description"
             android:textSize="20dp"/>
 
-        <WebView  xmlns:android="http://schemas.android.com/apk/res/android"
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <FrameLayout
+                android:id="@+id/youtube_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <!--<WebView  xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/youtube_webview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            />
+            />-->
     </LinearLayout>
 </LinearLayout>

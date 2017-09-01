@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.finalproject.elhen15.musicbox.Model.Model;
 import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.R;
+import com.finalproject.elhen15.musicbox.Utiles.Functions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -212,6 +213,8 @@ public class SignUpFragment extends Fragment {
         Model.instance.addUser(newUser, password, new Model.IAddUser() {
             @Override
             public void onComplete(User user) {
+                Model.user = user;
+                Functions.helloUser(v,user.getEmail().substring(0,user.getEmail().indexOf("@")));
                 MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,false);
                 onButtonPressed(listFragment);
             }

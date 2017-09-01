@@ -90,21 +90,13 @@ public class LoginFragment extends android.app.Fragment {
                 {
                     Model.user = new User();
                     Model.user = currUser;
+                    Functions.helloUser(view,currUser.getEmail().substring(0,currUser.getEmail().indexOf("@")));
+
                     MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,Model.user.getIsAdmin());
                     onButtonPressed(listFragment);
                 }
             }
         });
-
-        /*
-        Button btnSignIn = (Button) view.findViewById(R.id.loginbtn_signin);
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MusicPostListFragment listFragment =  MusicPostListFragment.newInstance(1);
-                onButtonPressed(listFragment);
-            }
-        });*/
 
         return view;
     }
@@ -219,6 +211,7 @@ public class LoginFragment extends android.app.Fragment {
                             if (user != null) {
                                 Model.user = new User();
                                 Model.user = user;
+                                Functions.helloUser(v,user.getEmail().substring(0,user.getEmail().indexOf("@")));
                                 MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1,user.getIsAdmin());
                                 onButtonPressed(listFragment);
                             } else {
