@@ -1,5 +1,7 @@
 package com.finalproject.elhen15.musicbox.Model;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +9,7 @@ import java.util.Date;
  * Created by Elhen15 on 29/07/2017.
  */
 
-public class MusicPost extends Entity {
+public class MusicPost extends Entity implements Comparable<MusicPost> {
     private String title;
     private String desc;
     private String imageUrl;
@@ -97,5 +99,22 @@ public class MusicPost extends Entity {
 
     public void setYoutubeURL(String youtubeURL) {
         this.youtubeURL = youtubeURL;
+    }
+
+    @Override
+    public int compareTo(MusicPost musicPost) {
+        final int BEFORE = -1;
+        final int EQUAL = 0;
+        final int AFTER = 1;
+
+        //this optimization is usually worthwhile, and can
+        //always be added
+        if (this == musicPost) return EQUAL;
+
+        //primitive numbers follow this form
+        if (this.getLikesCount() < musicPost.getLikesCount()) return AFTER;
+        if (musicPost.getLikesCount() > musicPost.getLikesCount()) return BEFORE;
+
+        return EQUAL;
     }
 }

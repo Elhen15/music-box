@@ -14,6 +14,10 @@
         android:title="My Likes"
         tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom"/>
+    <item android:id="@+id/sortPosts"
+        android:title="Sort"
+        tools:ignore="AppCompatResource"
+        android:showAsAction="ifRoom"/>
     <item android:id="@+id/signout"
         android:title="Sign Out"
         tools:ignore="AppCompatResource"

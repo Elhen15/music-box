@@ -20,6 +20,8 @@ import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.finalproject.elhen15.musicbox.MainActivity.transaction;
@@ -86,8 +88,9 @@ public class MusicPostListFragment extends Fragment {
             } else
                 Model.instance.getAllPosts(new Model.IGetAllPostsCallback() {
                     @Override
-                    public void onComplete(ArrayList<MusicPost> movies) {
-                        recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(movies, mListener));
+                    public void onComplete(ArrayList<MusicPost> posts) {
+                        recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(posts, mListener));
+                        MusicPostListFragment.postList = posts;
                     }
 
                     @Override
@@ -197,6 +200,14 @@ public class MusicPostListFragment extends Fragment {
                 UserAdminFragment userAdminFragment = UserAdminFragment.newInstance(1);
                 tran = getFragmentManager().beginTransaction();
                 tran.replace(R.id.main_container,userAdminFragment).commit();
+                break;
+            case R.id.sortPosts:
+                Collections.sort(MusicPostListFragment.postList, new Comparator<MusicPost>() {
+                    @Override
+                    public int compare(MusicPost musicPost, MusicPost t1) {
+                        return musicPost.compareTo(t1);
+                    }
+                });
                 break;
             default:
                 break;

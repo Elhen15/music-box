@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/add_new"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="Add New Post"
-        android:showAsAction="ifRoom"
-        tools:ignore="AppCompatResource"
-        />
     <item android:id="@+id/all_posts"
         android:title="All Posts"
         tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom"/>
     <item android:id="@+id/signout"
-        android:title="sign out"
+        android:title="Sign Out"
         tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom"/>
 </menu>
