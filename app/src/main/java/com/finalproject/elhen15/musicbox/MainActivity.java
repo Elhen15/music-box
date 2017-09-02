@@ -12,6 +12,7 @@ import com.finalproject.elhen15.musicbox.Model.MusicPost;
 import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.fragments.AddOrEditFragment;
 import com.finalproject.elhen15.musicbox.fragments.LoginFragment;
+import com.finalproject.elhen15.musicbox.fragments.MapFragment;
 import com.finalproject.elhen15.musicbox.fragments.MusicPostDetails;
 import com.finalproject.elhen15.musicbox.fragments.MusicPostListFragment;
 import com.finalproject.elhen15.musicbox.fragments.SignUpFragment;
@@ -23,12 +24,14 @@ public class MainActivity extends ActionBarActivity implements
         AddOrEditFragment.OnFragmentInteractionListener,
         SignUpFragment.OnFragmentInteractionListener,
         MusicPostDetails.OnFragmentInteractionListener,
-        UserAdminFragment.OnListFragmentInteractionListener{
+        UserAdminFragment.OnListFragmentInteractionListener,
+        MapFragment.OnFragmentInteractionListener{
 
     LoginFragment loginFragmentInstance;
 
     public static Fragment musicPostListFragmentInstance;
     public static Fragment musicPostDetailsFragmentInstance;
+    public static Fragment mapFragmentInstance;
 
     private static Context context;
 
@@ -55,6 +58,8 @@ public class MainActivity extends ActionBarActivity implements
     public void onFragmentInteractionChangeFrag(Fragment frag) {
         if (frag instanceof MusicPostListFragment)
             this.musicPostListFragmentInstance =  frag;
+        else if (frag instanceof MapFragment)
+            this.mapFragmentInstance = frag;
         transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.main_container, frag);
         transaction.addToBackStack("backLogin");

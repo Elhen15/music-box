@@ -18,6 +18,10 @@
         android:title="Sort"
         tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/location"
+        android:title="My Location"
+        android:showAsAction="ifRoom"/>
     <item android:id="@+id/signout"
         android:title="Sign Out"
         tools:ignore="AppCompatResource"

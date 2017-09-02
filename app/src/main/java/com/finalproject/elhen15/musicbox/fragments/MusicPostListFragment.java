@@ -196,6 +196,12 @@ public class MusicPostListFragment extends Fragment {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
                 break;
+            case R.id.location:
+                MapFragment frag = MapFragment.newInstance();
+                tran = getFragmentManager().beginTransaction();
+                tran.replace(R.id.main_container, frag);
+                tran.commit();
+                break;
             case R.id.usersAdmin:
                 UserAdminFragment userAdminFragment = UserAdminFragment.newInstance(1);
                 tran = getFragmentManager().beginTransaction();
