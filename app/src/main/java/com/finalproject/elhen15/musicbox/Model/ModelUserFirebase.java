@@ -183,7 +183,7 @@ public class ModelUserFirebase {
         void onError(String reason);
     }
     public void addUser(final User user, String password, final IAddUser callback) {
-        firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), "123456Ee!")
+        firebaseAuth.createUserWithEmailAndPassword(user.getEmail(), password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
