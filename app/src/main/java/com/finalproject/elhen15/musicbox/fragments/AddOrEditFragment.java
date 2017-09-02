@@ -237,15 +237,27 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         else {
             musicPost.setId(POSTID);
             progressBar.setVisibility(View.VISIBLE);
-            Model.instance.editPost(musicPost, new Model.IEditPostCallback() {
+            Model.instance.getPostByID(POSTID, new Model.IGetPostCallback() {
                 @Override
-                public void onComplete() {
-                    progressBar.setVisibility(View.GONE);
-                    Functions.alertMessage(v, "Message", "Music post has been edited! : )");
-                    mListener.onFragmentInteractionAddOrEdit();
+                public void onComplete(MusicPost post) {
+                    musicPost.setLikesCount(post.getLikesCount());
+                    musicPost.setImageUrl(post.getImageUrl());
+                    Model.instance.editPost(musicPost, new Model.IEditPostCallback() {
+                        @Override
+                        public void onComplete() {
+                            progressBar.setVisibility(View.GONE);
+                            Functions.alertMessage(v, "Message", "Music post has been edited! : )");
+                            mListener.onFragmentInteractionAddOrEdit();
+                        }
+                        @Override
+                        public void onCancel() {
+                        }
+                    });
                 }
+
                 @Override
                 public void onCancel() {
+
                 }
             });
         }
