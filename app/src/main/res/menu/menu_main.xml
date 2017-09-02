@@ -21,6 +21,7 @@
     <item
         android:id="@+id/location"
         android:title="My Location"
+        tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom"/>
     <item android:id="@+id/signout"
         android:title="Sign Out"

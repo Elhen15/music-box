@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.finalproject.elhen15.musicbox.Model.User;
 import com.finalproject.elhen15.musicbox.Utiles.Functions;
@@ -50,7 +51,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     private static MusicPost musicPost;
     private static EditText edtTitle = null;
     private static EditText edtDesc = null;
-
+    private static ProgressBar progressBar;
     private static ImageView edtImage = null;
     private Bitmap musicImageBitmap ;
     boolean isSuccesUpload =false;
@@ -101,6 +102,8 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         edtTitle = (EditText) v.findViewById(R.id.AddEditTitle);
         edtDesc = (EditText) v.findViewById(R.id.AddEditDescription);
         edtImage = (ImageView) v.findViewById(R.id.AddEditImage);
+        progressBar =(ProgressBar) v.findViewById(R.id.progressBar2);
+
 
         if (ACTION.equals("Add")) {
             btnAddEdit.setText("Add");
@@ -127,10 +130,12 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         btnAddEditDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 musicPost.setIsDeleted(true);
                 Model.instance.editPost(musicPost, new Model.IEditPostCallback() {
                     @Override
                     public void onComplete() {
+                        progressBar.setVisibility(View.GONE);
                         Functions.alertMessage(v,"Message","Music post has been deleted :/");
                         mListener.onFragmentInteractionAddOrEdit();
                     }
@@ -207,11 +212,13 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
         else {
             long timeStamp = System.currentTimeMillis();
             String imageName = musicPost.getTitle() + "-" + timeStamp + ".jpeg";
+            progressBar.setVisibility(View.VISIBLE);
             Model.instance.saveImage(musicImageBitmap, imageName, new Model.ISaveImageCallback() {
                 @Override
                 public void onComplete(String imageUrl) {
                     Log.d("dev", "onComplete addoreditfragment saveImage " + imageUrl + " " + isSuccesUpload);
                     musicPost.setImageUrl(imageUrl);
+                    progressBar.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -229,9 +236,11 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
             }
         else {
             musicPost.setId(POSTID);
+            progressBar.setVisibility(View.VISIBLE);
             Model.instance.editPost(musicPost, new Model.IEditPostCallback() {
                 @Override
                 public void onComplete() {
+                    progressBar.setVisibility(View.GONE);
                     Functions.alertMessage(v, "Message", "Music post has been edited! : )");
                     mListener.onFragmentInteractionAddOrEdit();
                 }
