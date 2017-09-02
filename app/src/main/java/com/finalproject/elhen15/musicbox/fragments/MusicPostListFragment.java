@@ -91,7 +91,6 @@ public class MusicPostListFragment extends Fragment {
                     @Override
                     public void onComplete(ArrayList<MusicPost> posts) {
                         recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(posts, mListener));
-                        //MusicPostListFragment.postList = posts;
                     }
 
                     @Override
@@ -211,14 +210,6 @@ public class MusicPostListFragment extends Fragment {
                 UserAdminFragment userAdminFragment = UserAdminFragment.newInstance(1);
                 tran = getFragmentManager().beginTransaction();
                 tran.replace(R.id.main_container,userAdminFragment).commit();
-                break;
-            case R.id.sortPosts:
-                Collections.sort(MusicPostListFragment.postList, new Comparator<MusicPost>() {
-                    @Override
-                    public int compare(MusicPost musicPost, MusicPost t1) {
-                        return musicPost.compareTo(t1);
-                    }
-                });
                 break;
             default:
                 break;

@@ -14,13 +14,10 @@
         android:title="My Likes"
         tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom"/>
-    <item android:id="@+id/sortPosts"
-        android:title="Sort"
-        tools:ignore="AppCompatResource"
-        android:showAsAction="ifRoom"/>
     <item
         android:id="@+id/location"
         android:title="My Location"
+        tools:ignore="AppCompatResource"
         android:showAsAction="ifRoom" />
     <item android:id="@+id/usersAdmin"
         android:title="Users Managment"
