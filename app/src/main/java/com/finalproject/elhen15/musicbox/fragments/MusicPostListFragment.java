@@ -193,8 +193,13 @@ public class MusicPostListFragment extends Fragment {
                 break;
             case R.id.all_posts:
                 MusicPostListFragment.postList = null;
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
+                // Refresh the fragment
+                (recyclerView.getAdapter()).notifyDataSetChanged();
+
+                MusicPostListFragment lstFragment = MusicPostListFragment.newInstance(1, Model.user.getIsAdmin());
+                tran = getFragmentManager().beginTransaction();
+                tran.replace(R.id.main_container, lstFragment);
+                tran.commit();;
                 break;
             case R.id.location:
                 MapFragment frag = MapFragment.newInstance();
@@ -259,25 +264,15 @@ public class MusicPostListFragment extends Fragment {
         Model.instance.getAllPosts(new Model.IGetAllPostsCallback() {
             @Override
             public void onComplete(ArrayList<MusicPost> posts) {
-                ArrayList<MusicPost> postToLike = new ArrayList<MusicPost>();
-
-             /*   for (MusicPost musicPost: posts) {
-                    for (MusicPost postLike: Model.user.getPostLikes()) {
-                        if(musicPost.getId().equals(postLike.getId())){
-                            postToLike.add(musicPost);
-                        }
-                    }
-                }*/
-
-                /*for (MusicPost musicPost: postToLike) {
-                    posts.clear();
-                    posts.add(musicPost);
-                }*/
                 MusicPostListFragment.postList = Model.user.getPostLikes();
 
                 // Refresh the fragment
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
+                (recyclerView.getAdapter()).notifyDataSetChanged();
+
+                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1, Model.user.getIsAdmin());
+                tran = getFragmentManager().beginTransaction();
+                tran.replace(R.id.main_container, listFragment);
+                tran.commit();;
             }
 
             @Override
