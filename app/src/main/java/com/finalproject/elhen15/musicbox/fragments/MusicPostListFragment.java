@@ -3,6 +3,7 @@ package com.finalproject.elhen15.musicbox.fragments;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -76,7 +77,7 @@ public class MusicPostListFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            final RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -90,12 +91,11 @@ public class MusicPostListFragment extends Fragment {
                     @Override
                     public void onComplete(ArrayList<MusicPost> posts) {
                         recyclerView.setAdapter(new MyMusicPostListRecyclerViewAdapter(posts, mListener));
-                        MusicPostListFragment.postList = posts;
+                        //MusicPostListFragment.postList = posts;
                     }
 
                     @Override
                     public void onCancel() {
-
                     }
                 });
 
@@ -240,11 +240,12 @@ public class MusicPostListFragment extends Fragment {
                     posts.remove(musicPost);
                 }
                 MusicPostListFragment.postList = posts;
+                (recyclerView.getAdapter()).notifyDataSetChanged();
 
-                Log.d("dev","Refresh fragment");
-                // Refresh the fragment
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(musicPostListFragment).attach(musicPostListFragment).commit();
+                MusicPostListFragment listFragment = MusicPostListFragment.newInstance(1, Model.user.getIsAdmin());
+                tran = getFragmentManager().beginTransaction();
+                tran.replace(R.id.main_container, listFragment);
+                tran.commit();;
             }
 
             @Override

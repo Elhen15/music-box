@@ -54,7 +54,7 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
     private static ProgressBar progressBar;
     private static ImageView edtImage = null;
     private Bitmap musicImageBitmap ;
-    boolean isSuccesUpload =false;
+    boolean isSuccesUpload = false;
 
 
     private OnFragmentInteractionListener mListener;
