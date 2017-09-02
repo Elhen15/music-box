@@ -117,6 +117,17 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
                     musicPost = musicPostCopy;
                     edtTitle.setText(musicPost.getTitle());
                     edtDesc.setText(musicPost.getDesc());
+                    Model.instance.getImage(musicPost.getImageUrl(), new Model.IGetImageCallback() {
+                        @Override
+                        public void onComplete(Bitmap image) {
+                            edtImage.setImageBitmap(image);
+                        }
+
+                        @Override
+                        public void onCancel() {
+
+                        }
+                    });
                 }
 
                 @Override
