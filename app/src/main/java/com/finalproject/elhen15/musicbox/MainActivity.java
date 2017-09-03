@@ -3,8 +3,11 @@ package com.finalproject.elhen15.musicbox;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 
 import com.finalproject.elhen15.musicbox.Model.Model;
@@ -32,6 +35,7 @@ public class MainActivity extends ActionBarActivity implements
     public static Fragment musicPostListFragmentInstance;
     public static Fragment musicPostDetailsFragmentInstance;
     public static Fragment mapFragmentInstance;
+    static final int REQUEST_WRITE_STORAGE = 11;
 
     private static Context context;
 
@@ -43,6 +47,13 @@ public class MainActivity extends ActionBarActivity implements
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        boolean hasPermission = (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED);
+        if (!hasPermission) {
+            ActivityCompat.requestPermissions(this,new String[]{
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+        }
         LoginFragment loginFragment = LoginFragment.newInstance();
         transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.main_container, loginFragment);

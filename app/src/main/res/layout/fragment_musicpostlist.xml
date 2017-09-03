@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
     <ImageView
         android:id="@+id/strow_image"
         android:layout_width="140dp"
@@ -16,6 +20,7 @@
         android:layout_width="70dp"
         android:visibility="gone"
         android:layout_height="70dp" />
+    </FrameLayout>
     <TextView
         android:id="@+id/strow_id"
         android:layout_width="wrap_content"
