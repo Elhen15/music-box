@@ -229,7 +229,10 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
                 public void onComplete(String imageUrl) {
                     Log.d("dev", "onComplete addoreditfragment saveImage " + imageUrl + " " + isSuccesUpload);
                     musicPost.setImageUrl(imageUrl);
+                    Model.instance.addPost(musicPost);
+                    Functions.alertMessage(v, "Message", "Music post has been added! : )");
                     progressBar.setVisibility(View.GONE);
+                    mListener.onFragmentInteractionAddOrEdit();
                 }
 
                 @Override
@@ -238,14 +241,14 @@ public class AddOrEditFragment extends Fragment implements View.OnClickListener{
                 }
             });
         }
-
+/*
         if (ACTION.equals("Add")) {
             Model.instance.addPost(musicPost);
             // for the next time
             Functions.alertMessage(v, "Message", "Music post has been added! : )");
             mListener.onFragmentInteractionAddOrEdit();
-            }
-        else {
+            }*/
+        if(ACTION.equals("Edit")){
             musicPost.setId(POSTID);
             progressBar.setVisibility(View.VISIBLE);
             Model.instance.getPostByID(POSTID, new Model.IGetPostCallback() {
